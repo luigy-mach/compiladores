@@ -58,8 +58,6 @@ struct automatafd{
   //typedef map_estados::iterator it_map;
   //typedef vec_trans::iterator it_vec;
 
-  enum Foo { a, b, c = 10, d, e = 1, f, g = f + c };
-
 
   automatafd(){
     root=NULL;
@@ -73,9 +71,14 @@ struct automatafd{
 
     while( its != s->end() ){
       it_vec=(it_map->second).begin();
-      while( !it_vec->_pf(*its)){
+      cout<<"--->"<< it_vec->_sig->nombre() <<endl;
+      while( !it_vec->_pf(*its)  ){
+          cout<<"->"<< it_vec->_sig->nombre() <<endl;
+          if( !it_vec->_pf(*its) )
+            break;
           it_vec++;
           if( it_vec==(it_map->second).end() ){
+            cout<<"error"<<endl;
             return 0;
           }
       }
@@ -106,7 +109,7 @@ struct automatafd{
     nodo xntemp(nombre);
     nodo xxntemp(nodo_sig);
     it1=estados.find(xntemp);
-    it2=estados.find(xxntemp);
+      it2=estados.find(xxntemp);
 
     if( it1!=estados.end() && it2!=estados.end() ){
       transicion ttemp(&(it2->first),pf);
@@ -125,22 +128,22 @@ bool es0(char c){
 };
 
 bool esxX(char c){
-  return (c==88 || c==120)?true:false;
+  return (c==88 && c==120)?true:false;
 };
 bool esoO(char c){
-  return (c==79 ||c==111)?true:false;
+  return (c==79 || c==111)?true:false;
 };
 
 bool es_numero(char c){
-  return (c>=48 || c<=57)?true:false;
+  return (c>=48 && c<=57)?true:false;
 };
 
 bool es_octal(char c){
-  return (c>=0 || c<=55)?true:false;
+  return (c>=0 && c<=55)?true:false;
 };
 
 bool es_hex(char c){
-  return (c>=48 || c<=57 || c>=65 || c<=70 || c>=97 || c<=102)?true:false;
+  return ( (c>=48 && c<=57) || (c>=65 && c<=70) || (c>=97 && c<=102) )?true:false;
 };
 
 
@@ -154,17 +157,19 @@ int main(){
 
   automata.insertar_transicion("q0","q1",*es0);
   automata.insertar_transicion("q1","q2",*esxX);
-    automata.insertar_transicion("q2","q2",*es_hex);
+      automata.insertar_transicion("q2","q2",*es_hex);
   automata.insertar_transicion("q1","q3",*esoO);
-    automata.insertar_transicion("q3","q3",*es_octal);
-  automata.insertar_transicion("q1","q4",*es_numero);
-    automata.insertar_transicion("q4","q4",*es_numero);
+      automata.insertar_transicion("q3","q3",*es_octal);
+  automata.insertar_transicion("q1","q4",*es_numero); 
+      automata.insertar_transicion("q4","q4",*es_numero);
 
 
 
 
-  string my="02131";
+  string my="0x646m";
   cout<< automata.verificar_entrada(&my) <<endl;
+
+
 
 
   return 0;
