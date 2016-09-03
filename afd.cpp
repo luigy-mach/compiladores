@@ -39,6 +39,8 @@ bool operator>(const nodo& a, const nodo& b){
 };
 
 
+
+
 struct transicion{
   const nodo* _sig;
   pfun _pf;
@@ -49,15 +51,13 @@ struct transicion{
 };
 
 
+
 struct automatafd{
   const nodo* root;
   typedef vector <transicion> vec_trans;
   typedef map< nodo, vec_trans > map_estados;
   typedef pair< nodo, vec_trans > pairnew;
   map_estados estados;
-  //typedef map_estados::iterator it_map;
-  //typedef vec_trans::iterator it_vec;
-
 
   automatafd(){
     root=NULL;
@@ -68,26 +68,28 @@ struct automatafd{
     vec_trans::iterator it_vec;
     string::iterator its = s->begin();
     it_map=estados.find(*root);
-
+    int x=0;
     while( its != s->end() ){
-      it_vec=(it_map->second).begin();
-      cout<<"--->"<< it_vec->_sig->nombre() <<endl;
-      while( !it_vec->_pf(*its)  ){
-          cout<<"->"<< it_vec->_sig->nombre() <<endl;
-          if( !it_vec->_pf(*its) )
-            break;
+      it_vec=it_map->second.begin();
+      while( it_vec!=it_map->second.end() && !it_vec->_pf(*its)  ){
           it_vec++;
-          if( it_vec==(it_map->second).end() ){
-            cout<<"error"<<endl;
-            return 0;
-          }
+      }
+
+      if( it_vec==it_map->second.end() ){
+        cout<<"error: cadena no valida"<<endl;
+        return 0;
       }
       it_map=estados.find(it_vec->_sig->nombre());
       its++;
-
     }
-    return it_map->first._tipo;
+    return es_terminal(&(it_map->first))?it_map->first.tipo():0;
   }
+
+
+  bool es_terminal(const nodo* n) {
+    return (n->tipo()>=1)?true:false;
+  }
+
 
   void insertar_estado(string nombre,
                       int tipo=0 ){
@@ -109,7 +111,7 @@ struct automatafd{
     nodo xntemp(nombre);
     nodo xxntemp(nodo_sig);
     it1=estados.find(xntemp);
-      it2=estados.find(xxntemp);
+    it2=estados.find(xxntemp);
 
     if( it1!=estados.end() && it2!=estados.end() ){
       transicion ttemp(&(it2->first),pf);
@@ -123,18 +125,21 @@ struct automatafd{
 // ----------------------------------
 // funciones
 // ---------------------------------
-bool es0(char c){
+bool es_cero(char c){
   return (c==48)?true:false;
 };
 
-bool esxX(char c){
-  return (c==88 && c==120)?true:false;
+bool es_x(char c){
+  return (c==88 || c==120)?true:false;
 };
-bool esoO(char c){
+bool es_o(char c){
   return (c==79 || c==111)?true:false;
 };
 
-bool es_numero(char c){
+bool es_numero_sin_cero(char c){
+  return (c>=49 && c<=57)?true:false;
+};
+bool es_numero_con_cero(char c){
   return (c>=48 && c<=57)?true:false;
 };
 
@@ -143,31 +148,68 @@ bool es_octal(char c){
 };
 
 bool es_hex(char c){
-  return ( (c>=48 && c<=57) || (c>=65 && c<=70) || (c>=97 && c<=102) )?true:false;
+  return ( es_numero_con_cero(c) || (c>=65 && c<=70) || (c>=97 && c<=102) )?true:false;
 };
 
 
 int main(){
   automatafd automata;
-  automata.insertar_estado("q0",-1);
-  automata.insertar_estado("q1", 0);
-  automata.insertar_estado("q2", 1);
-  automata.insertar_estado("q3", 2);
-  automata.insertar_estado("q4", 3);
-
-  automata.insertar_transicion("q0","q1",*es0);
-  automata.insertar_transicion("q1","q2",*esxX);
-      automata.insertar_transicion("q2","q2",*es_hex);
-  automata.insertar_transicion("q1","q3",*esoO);
-      automata.insertar_transicion("q3","q3",*es_octal);
-  automata.insertar_transicion("q1","q4",*es_numero); 
-      automata.insertar_transicion("q4","q4",*es_numero);
 
 
+  // -1 estado inicial
+  // 0 no terminal
+  // >0 terminal
 
 
-  string my="0x646m";
-  cout<< automata.verificar_entrada(&my) <<endl;
+  automata.insertar_estado("q0",-1); // inicial
+  automata.insertar_estado("q1", 1); // terminal 1
+  automata.insertar_estado("q2", 2); // terminal 2
+  automata.insertar_estado("q3", 0); // no terminal
+  automata.insertar_estado("q4", 0); // no terminal
+  automata.insertar_estado("q5", 5); // terminal 5
+  automata.insertar_estado("q6", 6); // terminal 6
+
+
+
+
+  automata.insertar_transicion("q0","q1",*es_cero);
+  automata.insertar_transicion("q1","q1",*es_cero);
+  automata.insertar_transicion("q1","q2",*es_numero_sin_cero);
+  automata.insertar_transicion("q1","q3",*es_x);
+  automata.insertar_transicion("q3","q5",*es_hex);
+  automata.insertar_transicion("q5","q5",*es_hex);
+
+
+  automata.insertar_transicion("q1","q4",*es_o);
+  automata.insertar_transicion("q4","q6",*es_octal);
+  automata.insertar_transicion("q6","q6",*es_octal);
+
+
+  automata.insertar_transicion("q0","q2",*es_numero_sin_cero);
+  automata.insertar_transicion("q2","q2",*es_numero_con_cero);
+
+
+
+      // -1 =  no inicial
+      // 0 = error
+      // 1 = solo ceros
+      // 2 = numero natural incluido el cero
+      // 5 = hexadecimal
+      // 6 = octal
+
+
+  string my1="0x646a";
+  cout<< automata.verificar_entrada(&my1) <<endl;
+
+  string my2="0064";
+  cout<< automata.verificar_entrada(&my2) <<endl;
+
+  string my3="0o647";
+  cout<< automata.verificar_entrada(&my3) <<endl;
+
+  string my4="0000";
+  cout<< automata.verificar_entrada(&my4) <<endl;
+
 
 
 
