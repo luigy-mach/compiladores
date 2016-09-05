@@ -172,8 +172,8 @@ int main(){
  token.insert ( std::pair<int,string>(0,"error") );
  token.insert ( std::pair<int,string>(1,"cero") );
  token.insert ( std::pair<int,string>(2,"numero") );
- token.insert ( std::pair<int,string>(5,"octal") );
- token.insert ( std::pair<int,string>(6,"hexadecimal") );
+ token.insert ( std::pair<int,string>(6,"octal") );
+ token.insert ( std::pair<int,string>(5,"hexadecimal") );
  //------------------------------------------------------
 
 
@@ -214,10 +214,10 @@ int main(){
       // 6 = octal
 
 
-  string my1="0x646a";
+  string my1="0o3";
   cout<< token[automata.verificar_entrada(&my1)] <<endl;
 
-  string my2="0064";
+/*  string my2="0064";
   cout<< token[automata.verificar_entrada(&my2)] <<endl;
 
   string my3="0o647";
@@ -228,7 +228,7 @@ int main(){
 
   string my5="0xxx";
   cout<< token[automata.verificar_entrada(&my5)] <<endl;
-
+*/
 
 
 
