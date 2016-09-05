@@ -10,6 +10,8 @@ using namespace std;
 typedef  bool (*pfun)(char c);
 
 
+
+
 struct nodo{
   int _tipo; // -1 inicial; 0 normal ; 1 terminal
   string _nombre;
@@ -76,7 +78,7 @@ struct automatafd{
       }
 
       if( it_vec==it_map->second.end() ){
-        cout<<"error: cadena no valida"<<endl;
+        //cout<<"error: cadena no valida"<<endl;
         return 0;
       }
       it_map=estados.find(it_vec->_sig->nombre());
@@ -117,7 +119,7 @@ struct automatafd{
       transicion ttemp(&(it2->first),pf);
       it1->second.push_back(ttemp);
     }
-  }
+  };
 
 };
 
@@ -152,14 +154,29 @@ bool es_hex(char c){
 };
 
 
+
+//enum token { error=0, cero=1, numero=2, octal= 5, hexadecimal=6 };
+
+
+////////////////////////////////////////////////////////////////////////////
+//////////////////MAIN
+////////////////////////////////////////////////////////////////////////////
 int main(){
+
+  /////////////////// TABLE TOKENS /////////////////////
+  map <int,string> token;
+ token.insert ( std::pair<int,string>(0,"error") );
+ token.insert ( std::pair<int,string>(1,"cero") );
+ token.insert ( std::pair<int,string>(2,"numero") );
+ token.insert ( std::pair<int,string>(5,"octal") );
+ token.insert ( std::pair<int,string>(6,"hexadecimal") );
+ //------------------------------------------------------
+
+
   automatafd automata;
-
-
   // -1 estado inicial
   // 0 no terminal
   // >0 terminal
-
 
   automata.insertar_estado("q0",-1); // inicial
   automata.insertar_estado("q1", 1); // terminal 1
@@ -170,8 +187,6 @@ int main(){
   automata.insertar_estado("q6", 6); // terminal 6
 
 
-
-
   automata.insertar_transicion("q0","q1",*es_cero);
   automata.insertar_transicion("q1","q1",*es_cero);
   automata.insertar_transicion("q1","q2",*es_numero_sin_cero);
@@ -179,15 +194,12 @@ int main(){
   automata.insertar_transicion("q3","q5",*es_hex);
   automata.insertar_transicion("q5","q5",*es_hex);
 
-
   automata.insertar_transicion("q1","q4",*es_o);
   automata.insertar_transicion("q4","q6",*es_octal);
   automata.insertar_transicion("q6","q6",*es_octal);
 
-
   automata.insertar_transicion("q0","q2",*es_numero_sin_cero);
   automata.insertar_transicion("q2","q2",*es_numero_con_cero);
-
 
 
       // -1 =  no inicial
@@ -199,16 +211,19 @@ int main(){
 
 
   string my1="0x646a";
-  cout<< automata.verificar_entrada(&my1) <<endl;
+  cout<< token[automata.verificar_entrada(&my1)] <<endl;
 
   string my2="0064";
-  cout<< automata.verificar_entrada(&my2) <<endl;
+  cout<< token[automata.verificar_entrada(&my2)] <<endl;
 
   string my3="0o647";
-  cout<< automata.verificar_entrada(&my3) <<endl;
+  cout<< token[automata.verificar_entrada(&my3)] <<endl;
 
   string my4="0000";
-  cout<< automata.verificar_entrada(&my4) <<endl;
+  cout<< token[automata.verificar_entrada(&my4)] <<endl;
+
+  string my5="0xxx";
+  cout<< token[automata.verificar_entrada(&my5)] <<endl;
 
 
 
