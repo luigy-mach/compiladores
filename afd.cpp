@@ -153,6 +153,10 @@ bool es_hex(char c){
   return ( es_numero_con_cero(c) || (c>=65 && c<=70) || (c>=97 && c<=102) )?true:false;
 };
 
+//----------------------------------------------------
+//fin funciones
+//----------------------------------------------------
+
 
 
 //enum token { error=0, cero=1, numero=2, octal= 5, hexadecimal=6 };
