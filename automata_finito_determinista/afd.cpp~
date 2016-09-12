@@ -159,7 +159,7 @@ bool es_hex(char c){
 
 
 
-//enum token {    cvb=0, cero=1, numero=2, octal= 5, hexadecimal=6 };
+//enum token { error=0, cero=1, numero=2, octal= 5, hexadecimal=6 };
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -169,7 +169,7 @@ int main(){
 
   /////////////////// TABLE TOKENS /////////////////////
   map <int,string> token;
- token.insert ( std::pair<int,string>(0,"cadena invalida") );
+ token.insert ( std::pair<int,string>(0,"error") );
  token.insert ( std::pair<int,string>(1,"cero") );
  token.insert ( std::pair<int,string>(2,"numero") );
  token.insert ( std::pair<int,string>(6,"octal") );
