@@ -1,56 +1,78 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "automaton.hpp"
+// #include "/home/luigy/Desktop/compiladores/compilador/automatas/automaton/automaton.hpp"
+
+
+#include "tabla_token.hpp"
 
 
 using namespace std;
 
 
 //enum token {    cvb=0, cero=1, numero=2, octal= 5, hexadecimal=6 };
-
-
-
-
-void init_automata_numerico(AFD & automata_numerico){
-  // -1 estado inicial
-  // 0 no terminal
-  // >0 terminal
-  automata_numerico.insertar_estado(capsula("q0"),-1); // inicial
-  automata_numerico.insertar_estado(capsula("q1"), 1); // terminal 1
-  automata_numerico.insertar_estado(capsula("q2"), 2); // terminal 2
-  automata_numerico.insertar_estado(capsula("q3"), 0); // no terminal
-  automata_numerico.insertar_estado(capsula("q4"), 0); // no terminal
-  automata_numerico.insertar_estado(capsula("q5"), 5); // terminal 5
-  automata_numerico.insertar_estado(capsula("q6"), 6); // terminal 6
-
-
-  automata_numerico.insertar_transicion(capsula("q0"),capsula("q1"),*es_cero);
-  automata_numerico.insertar_transicion(capsula("q1"),capsula("q2"),*es_numero_sin_cero);
-  automata_numerico.insertar_transicion(capsula("q1"),capsula("q1"),*es_cero);
-  automata_numerico.insertar_transicion(capsula("q1"),capsula("q3"),*es_x);
-  automata_numerico.insertar_transicion(capsula("q3"),capsula("q5"),*es_hex);
-  automata_numerico.insertar_transicion(capsula("q5"),capsula("q5"),*es_hex);
-
-  automata_numerico.insertar_transicion(capsula("q1"),capsula("q4"),*es_o);
-  automata_numerico.insertar_transicion(capsula("q4"),capsula("q6"),*es_octal);
-  automata_numerico.insertar_transicion(capsula("q6"),capsula("q6"),*es_octal);
-
-  automata_numerico.insertar_transicion(capsula("q0"),capsula("q2"),*es_numero_sin_cero);
-  automata_numerico.insertar_transicion(capsula("q2"),capsula("q2"),*es_numero_con_cero);
-
-
-    // -1 =  no inicial
-    // 0 = error
-    // 1 = solo ceros
-    // 2 = numero natural incluido el cero
-    // 5 = hexadecimal
-    // 6 = octal
-}
+//
+// void init_automata_numerico(AFD & automata_numerico){
+//   // -1 estado inicial
+//   // 0 no terminal
+//   // >0 terminal
+//   automata_numerico.insertar_estado(capsula("q0"),-1); // inicial
+//   automata_numerico.insertar_estado(capsula("q1"), 1); // terminal 1
+//   automata_numerico.insertar_estado(capsula("q2"), 2); // terminal 2
+//   automata_numerico.insertar_estado(capsula("q3"), 0); // no terminal
+//   automata_numerico.insertar_estado(capsula("q4"), 0); // no terminal
+//   automata_numerico.insertar_estado(capsula("q5"), 5); // terminal 5
+//   automata_numerico.insertar_estado(capsula("q6"), 6); // terminal 6
+//
+//
+//   automata_numerico.insertar_transicion(capsula("q0"),capsula("q1"),*es_cero);
+//   automata_numerico.insertar_transicion(capsula("q1"),capsula("q2"),*es_numero_sin_cero);
+//   automata_numerico.insertar_transicion(capsula("q1"),capsula("q1"),*es_cero);
+//   automata_numerico.insertar_transicion(capsula("q1"),capsula("q3"),*es_x);
+//   automata_numerico.insertar_transicion(capsula("q3"),capsula("q5"),*es_hex);
+//   automata_numerico.insertar_transicion(capsula("q5"),capsula("q5"),*es_hex);
+//
+//   automata_numerico.insertar_transicion(capsula("q1"),capsula("q4"),*es_o);
+//   automata_numerico.insertar_transicion(capsula("q4"),capsula("q6"),*es_octal);
+//   automata_numerico.insertar_transicion(capsula("q6"),capsula("q6"),*es_octal);
+//
+//   automata_numerico.insertar_transicion(capsula("q0"),capsula("q2"),*es_numero_sin_cero);
+//   automata_numerico.insertar_transicion(capsula("q2"),capsula("q2"),*es_numero_con_cero);
+//
+//
+//     // -1 =  no inicial
+//     // 0 = error
+//     // 1 = solo ceros
+//     // 2 = numero natural incluido el cero
+//     // 5 = hexadecimal
+//     // 6 = octal
+// }
 
 
 
 int main(int argc, char *argv[]){
+
+
+
+  TABLA mytabla;
+  mytabla.iniciar_tokens_especificos();
+
+  mytabla.insertar_token_no_especifico("id1","ID",100,125,"error_fatal","matate");
+  mytabla.insertar_token_no_especifico("id2","ID",11000,1125,"todo bien","vacio");
+
+  mytabla.imprimir_tabla();
+
+
+
+
+
+
+
+
+
+
+
+/*
 // int main(){
 
   /////////////////// TABLE TOKENS /////////////////////
@@ -115,6 +137,6 @@ int main(int argc, char *argv[]){
 
 
 cout<<"FIN////////////todo ok"<<endl;
-
+*/
   return 0;
 }

@@ -73,8 +73,6 @@ int nodo<N>::tipo() const{
 
 
 
-
-
 template<typename T>
 class transicion{
 private:
@@ -106,7 +104,7 @@ class automaton{
   automaton(){_root=NULL;}
   // automaton();
   ~automaton(){}
-  int verificar_entrada(string* s);
+  int verificar_entrada(string* s, A& out_capsula);
   bool es_terminal(const nodo<A>* n);
   void insertar_estado(const A capsula,
                       int tipo=0);
@@ -126,7 +124,7 @@ class automaton{
   // }
 
   template<typename A>
-  int automaton<A>::verificar_entrada(string* s){
+  int automaton<A>::verificar_entrada(string* s, A& out_capsula){
     typename _map_estados::iterator it_map;
     typename _vec_trans::iterator it_vec;
     typename string::iterator its = s->begin();
@@ -146,6 +144,7 @@ class automaton{
       its++;
       // cout<<" ->"<<it_map->first.capsula()._nombre<<endl;
     }
+    out_capsula=it_map->first.capsula();
     return es_terminal(&(it_map->first))?it_map->first.tipo():0;
   }
 
