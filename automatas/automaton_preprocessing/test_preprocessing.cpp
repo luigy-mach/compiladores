@@ -112,7 +112,7 @@ int main(int argc, char *argv[]){
   // cout<< token[automaton.verificar_entrada(&my5)] <<endl;
 
 
-cout<<"FIN////////////todo ok"<<endl;
+  // cout<<"FIN////////////todo ok"<<endl;
 
   return 0;
 }
