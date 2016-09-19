@@ -64,11 +64,35 @@ void tabla_token::imprimir_tabla(){
 }
 
 void tabla_token::iniciar_tokens_especificos(){
-  insertar("int",class_token("INT") );
+
+  ifstream myfile("TSE.txt",ios::in);
+  std::vector<std::string> v;
+    std::string line;
+    while(std::getline(myfile, line))
+    {
+      v.push_back(line);
+    }                                      
+  //  for(auto& s : v){std::cout << s << std::endl;}
+
+  
+  //hash_token tabla_de_simbolos;
+  //cout<<v.size();
+  for(int i=0;i<v.size();i+=2)
+  {
+    
+    //vector<string> myvec;
+    //myvec.push_back(v[i+1])jm;
+    //pair<string,vector<string>> mypair (v[i],myvec);
+    //tabla_de_simbolos.insert(mypair);
+    insertar(v[i],class_token(v[i+1]));
+    //cout<<"i:   "<<i<<"  v[i+1]:  "<<v[i+1]<<" v[i] "<<v[i]<<endl;
+  }
+
+  /*insertar("int",class_token("INT") );
   insertar("main",class_token("MAIN") );
   insertar("while",class_token("WHILE") );
   insertar(";",class_token("PUNTO_COMA") );
-  insertar(" ",class_token("ESPACIO") );
+  insertar(" ",class_token("ESPACIO") );*/
 }
 
 
