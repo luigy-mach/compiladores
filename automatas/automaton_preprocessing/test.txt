@@ -1,3 +1,4 @@
-ABCDEFG;
-HIJKLMN;
-OPQRZTU;
+ABC//DEFG;
+HIJKLMN;//esto es una comentario
+OPQRZTU/*adfadsfsd*/asdfasdfasd;
+bla bla
