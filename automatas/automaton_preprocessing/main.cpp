@@ -25,8 +25,9 @@ void cargar_buffer(char* &buffer){
 }
 
 void borrar_segmento_cadena(string& buffer,string::iterator& it_marca,string::iterator& it1,string::iterator& it2){
-  it_marca=it2;
+  it_marca=it1;
   buffer.erase(it1,it2);
+  buffer.insert(it_marca,'\n');
   it1=it_marca;
   it2=it_marca;
 }
@@ -37,15 +38,22 @@ void borrar_comentarios_buffer(string& buffer, string& resultado){
   string::iterator it1;
   string::iterator it2;
   it_marca=it1=it2=buffer.begin();
-  // while(it2!=buffer.end()){
-  //   if(*it2=='/'){
-  //       it1==it2;
-  //       if(*(it2+1)=='/'{
-  //         while(it2==)
-  //       }
-  //   }
-  //   it2++;
-  // }
+  while(it2!=buffer.end()){
+    if(*it2=='/'){
+        it1==it2;
+        it2++;
+        if(*it2=='/'){
+          while(*it2!='\n'){
+            it2++;
+          }
+          borrar_segmento_cadena(buffer,it_marca,it1,it2);
+        }
+        else if(*it2=='*'){
+
+        }
+    }
+    it2++;
+  }
 
 
 }
@@ -68,7 +76,8 @@ int main () {
 
 
   // string prueba="hola \nesto \nes \nuna prueba";
-  string prueba="hola \nesto es una prueba";
+  // string prueba="hola \nesto es una prueba";
+  string prueba="012\n345\n6789";
   string::iterator it_marca=prueba.begin();
   string::iterator it1=prueba.begin();
   string::iterator it2=prueba.begin();
@@ -77,6 +86,8 @@ int main () {
   cout<<"////////////////////////"<<endl;
   while(it2 != prueba.end()){
     if(*it2=='\n'){
+      it1=it2;
+      it2++;
       borrar_segmento_cadena(prueba,it_marca,it1,it2);
       // cout<<"it1:\""<<*it1<<"\""<<endl;
       // cout<<"it2:\""<<*it2<<"\""<<endl;
@@ -84,7 +95,7 @@ int main () {
 
     it2++;
   }
-  cout<<prueba<<endl;
+  cout<<"\""<<prueba<<"\""<<endl;
 
 
 
