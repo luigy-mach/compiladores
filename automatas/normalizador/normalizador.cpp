@@ -74,3 +74,32 @@ void normalizador::normalizar_archivo(const char* & input,const  char* & ouput)
     ouf.close();
   }
 }
+
+// void normalizador::normalizar_archivo(const char* & input,const  char* & ouput)
+void normalizador::normalizar_archivo(const string& in,const string& out)
+{
+
+  char* input=new char[in.size()+1];
+  std::memcpy(input,in.c_str(),in.size()+1);
+  char* ouput=new char[out.size()+1];
+  std::memcpy(ouput,out.c_str(),out.size()+1);
+
+
+  std:map<char,char> mymap;
+  char * pointer;
+  cargar_map(pointer,mymap);
+
+  ifstream inf(input);
+  ofstream ouf(ouput);
+  string buffer;
+  if (inf.is_open())
+  {
+    while ( getline (inf,buffer) )
+    {
+      normalizar_cadena(buffer,pointer,mymap);
+      ouf << buffer << '\n';
+    }
+    inf.close();
+    ouf.close();
+  }
+}

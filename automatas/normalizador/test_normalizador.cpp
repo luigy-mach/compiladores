@@ -11,8 +11,8 @@ using namespace normalizador;
 
 
 int main(){
-  const char* input="in.txt";
-  const char* ouput="ou.txt";
-  normalizador::normalizar_archivo(input,ouput);
+
+  normalizador::normalizador("in.txt","ou.txt");
+
   return 0;
 }
