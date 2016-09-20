@@ -1,0 +1,8 @@
+int a=3;
+//esto es un comentarios simple
+void soyfuncion(const string a);
+double _double = 3;
+long _double = 3;
+float _double = 3; 
+char _double = 3;
+kk;
