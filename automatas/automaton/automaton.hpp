@@ -269,7 +269,7 @@ bool operator>(const nodo<K>& a, const nodo<K>& b){
 
 
 //----------------------------------------------------
-// funciones
+// funciones numeros
 //----------------------------------------------------
 bool es_cero(char c);
 bool es_x(char c);
@@ -279,8 +279,27 @@ bool es_numero_con_cero(char c);
 bool es_octal(char c);
 bool es_hex(char c);
 //----------------------------------------------------
-//fin funciones
+//fin funciones numeros
 //----------------------------------------------------
+
+
+
+//----------------------------------------------------
+// funciones string
+//----------------------------------------------------
+bool es_letra(char c);
+bool es_guion_bajo(char c);
+bool es_numero(char c);
+bool es_comilla(char c);
+//----------------------------------------------------
+//fin funciones string
+//----------------------------------------------------
+
+
+
+
+
+
 
 
 #endif //AUTOMTAS_H

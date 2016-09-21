@@ -1,0 +1,4 @@
+int a=3;
+string hola="aaaaa";//esto es una comentario
+//este es otro comentario
+double b=34;
