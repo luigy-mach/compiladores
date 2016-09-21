@@ -144,16 +144,13 @@ class automaton{
       its++;
       // cout<<" ->"<<it_map->first.capsula()._nombre<<endl;
     }
-    cout<<"->>>"<<endl;
-
     out_capsula=it_map->first.capsula();
-    // cout<<"->>>"<<(it_map->first).tipo()<<endl;
     return es_terminal(&(it_map->first))?it_map->first.tipo():0;
   }
 
   template<typename A>
   bool automaton<A>::es_terminal(const nodo<A>* n) {
-    return (n->tipo()>0)?true:false;
+    return (n->tipo()>=1)?true:false;
   }
 
   template<typename A>
@@ -272,37 +269,18 @@ bool operator>(const nodo<K>& a, const nodo<K>& b){
 
 
 //----------------------------------------------------
-// funciones numeros
+// funciones
 //----------------------------------------------------
 bool es_cero(char c);
 bool es_x(char c);
 bool es_o(char c);
 bool es_numero_sin_cero(char c);
-bool es_numero_con_cero(char cautomata_string);
+bool es_numero_con_cero(char c);
 bool es_octal(char c);
 bool es_hex(char c);
 //----------------------------------------------------
-//fin funciones numeros
+//fin funciones
 //----------------------------------------------------
-
-
-
-//----------------------------------------------------
-// funciones string
-//----------------------------------------------------
-bool es_letra(char c);
-bool es_guion_bajo(char c);
-bool es_numero(char c);
-bool es_comilla(char c);
-//----------------------------------------------------
-//fin funciones string
-//----------------------------------------------------
-
-
-
-
-
-
 
 
 #endif //AUTOMTAS_H
