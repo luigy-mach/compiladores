@@ -42,22 +42,29 @@ struct class_AFD
   typedef automaton<T> type;
 };
 
+
 template<typename N>
 class nodo{
 private:
   int _tipo; // -1 inicial; 0 normal ; 1 terminal
   N _capsula; // datos encapsulados
+  nodo<N>* _pointer_myself;
+  bool _inicial;
+  bool _terminal;
 public:
   nodo(){}
   nodo(const N capsula, int tipo=0);
   const N capsula() const;
   int tipo() const;
+  nodo<N>* pointer_myself() const;
 };
+
 
 template<typename N>
 nodo<N>::nodo(const N capsula, int tipo){
     _capsula=capsula;
     _tipo=tipo;
+    _pointer_myself=this;
 }
 template<typename N>
 const N nodo<N>::capsula() const{
@@ -66,10 +73,12 @@ const N nodo<N>::capsula() const{
 template<typename N>
 int nodo<N>::tipo() const{
     return _tipo;
-
 }
 
-
+template<typename N>
+nodo<N>* nodo<N>::pointer_myself() const{
+    return _pointer_myself;
+}
 
 
 
@@ -95,7 +104,7 @@ transicion<T>::transicion(const nodo<T>* sig, pfun pf){
 template<typename A>
 class automaton{
   const nodo<A>* _root;
-  public:
+public:
   typedef vector< transicion<A> > _vec_trans;
   typedef map< nodo<A>, _vec_trans > _map_estados;
   typedef pair< nodo<A>, _vec_trans > _pairnew;
@@ -123,109 +132,109 @@ class automaton{
   //   _root=NULL;
   // }
 
-  template<typename A>
-  int automaton<A>::verificar_entrada(string* s, A& out_capsula){
-    typename _map_estados::iterator it_map;
-    typename _vec_trans::iterator it_vec;
-    typename string::iterator its = s->begin();
-    it_map=_estados.find(*_root);
-    // cout<<it_map->first.capsula()._nombre<<" <- "<<endl;
-    while( its != s->end() ){
-      it_vec=it_map->second.begin();
-      while( it_vec!=it_map->second.end() && !it_vec->_pf(*its)  ){
-          it_vec++;
-      }
+template<typename A>
+int automaton<A>::verificar_entrada(string* s, A& out_capsula){
+  typename _map_estados::iterator it_map;
+  typename _vec_trans::iterator it_vec;
 
-      if( it_vec==it_map->second.end() ){
-        return 0;
-      }
-
-      it_map=_estados.find(it_vec->_sig->capsula());
-      its++;
-      // cout<<" ->"<<it_map->first.capsula()._nombre<<endl;
+  typename string::iterator its = s->begin();
+  it_map=_estados.find(*_root);
+  // cout<<"empenzando verificacion"<<endl;
+  // cout<<it_map->first.capsula()._nombre<<" <- "<<endl;
+  while( its != s->end() ){
+    it_vec=it_map->second.begin();
+    while( it_vec!=it_map->second.end() && !it_vec->_pf(*its)  ){
+        it_vec++;
     }
-    cout<<"->>>"<<endl;
 
-    out_capsula=it_map->first.capsula();
-    // cout<<"->>>"<<(it_map->first).tipo()<<endl;
-    return es_terminal(&(it_map->first))?it_map->first.tipo():0;
-  }
-
-  template<typename A>
-  bool automaton<A>::es_terminal(const nodo<A>* n) {
-    return (n->tipo()>0)?true:false;
-  }
-
-  template<typename A>
-  void automaton<A>::insertar_estado
-                     (const A capsula,
-                      int tipo ){
-    _vec_trans vtemp;
-    nodo<A> ntemp(capsula,tipo);
-    _estados.insert(_pairnew(ntemp,vtemp));
-    typename _map_estados::iterator it;
-    it=_estados.find(ntemp);
-    if(tipo==-1){
-      _root=&(it->first);
+    if( it_vec==it_map->second.end() ){
+      return -34404;
     }
+
+    it_map=_estados.find(it_vec->_sig->capsula());
+    its++;
+    // cout<<" ->"<<it_map->first.capsula()._nombre<<endl;
   }
+  out_capsula=it_map->first.capsula();
+  return es_terminal(&(it_map->first))?it_map->first.tipo():0;
+  return it_map->first.tipo();
+}
 
-  template<typename A>
-  void automaton<A>::insertar_transicion
-                    (const A capsula_actual,
-                     const A capsula_sig,
-                     pfun pf){
+template<typename A>
+bool automaton<A>::es_terminal(const nodo<A>* n) {
+  return (n->tipo()>=1)?true:false;
+}
 
-    typename _map_estados::iterator it1;
-    typename _map_estados::iterator it2;
-    nodo<A> xntemp(capsula_actual);
-    nodo<A> xxntemp(capsula_sig);
-    it1=_estados.find(xntemp);
-    it2=_estados.find(xxntemp);
-
-    if( it1!=_estados.end() && it2!=_estados.end() ){
-      transicion<A> ttemp(&(it2->first),pf);
-      it1->second.push_back(ttemp);
-    }
+template<typename A>
+void automaton<A>::insertar_estado
+                   (const A capsula,
+                    int tipo ){
+  _vec_trans vtemp;
+  nodo<A> ntemp(capsula,tipo);
+  _estados.insert(_pairnew(ntemp,vtemp));
+  typename _map_estados::iterator it;
+  it=_estados.find(ntemp);
+  if(tipo<0){
+    _root=&(it->first);
   }
+}
 
+template<typename A>
+void automaton<A>::insertar_transicion
+                  (const A capsula_actual,
+                   const A capsula_sig,
+                   pfun pf){
 
-  template<typename A>
-  const nodo<A> automaton<A>::nodo_inicio() const {
-    return *_root;
+  typename _map_estados::iterator it1;
+  typename _map_estados::iterator it2;
+  nodo<A> xntemp(capsula_actual);
+  nodo<A> xxntemp(capsula_sig);
+  it1=_estados.find(xntemp);
+  it2=_estados.find(xxntemp);
+
+  if( it1!=_estados.end() && it2!=_estados.end() ){
+    transicion<A> ttemp(&(it2->first),pf);
+    it1->second.push_back(ttemp);
   }
+}
 
-  template<typename A>
-  const nodo<A>* automaton<A>::nodo_inicio_puntero() const {
-    return _root;
+
+template<typename A>
+const nodo<A> automaton<A>::nodo_inicio() const {
+  return *_root;
+}
+
+template<typename A>
+const nodo<A>* automaton<A>::nodo_inicio_puntero() const {
+  return _root;
+}
+
+template<typename A>
+void  automaton<A>::
+                unir_automata_con(const A capsula_inicio,
+                                  const automaton<A>& automata_fin,
+                                  pfun pf){
+  typename _map_estados::iterator it1;
+  nodo<A> xntemp(capsula_inicio);
+  it1=_estados.find(xntemp);
+
+
+  // const nodo<A>* xxntemp = automata_fin.nodo_inicio_puntero();
+  _estados.insert(automata_fin._estados.begin(),automata_fin._estados.end());
+
+  const nodo<A> xxntemp = automata_fin.nodo_inicio();
+  typename _map_estados::iterator it2;
+  it2=_estados.find(xxntemp);
+
+
+  if( it1!=_estados.end() && it2!=_estados.end() ){
+    transicion<A> ttemp(&(it2->first),pf);
+    it1->second.push_back(ttemp);
+    // std::cout << "union " << it->first.capsula()._nombre <<std::endl;
+
   }
-
-  template<typename A>
-  void  automaton<A>::
-                  unir_automata_con(const A capsula_inicio,
-                                    const automaton<A>& automata_fin,
-                                    pfun pf){
-    typename _map_estados::iterator it1;
-    nodo<A> xntemp(capsula_inicio);
-    it1=_estados.find(xntemp);
-
-
-    // const nodo<A>* xxntemp = automata_fin.nodo_inicio_puntero();
-    _estados.insert(automata_fin._estados.begin(),automata_fin._estados.end());
-
-    const nodo<A> xxntemp = automata_fin.nodo_inicio();
-    typename _map_estados::iterator it2;
-    it2=_estados.find(xxntemp);
-
-
-    if( it1!=_estados.end() && it2!=_estados.end() ){
-      transicion<A> ttemp(&(it2->first),pf);
-      it1->second.push_back(ttemp);
-      // std::cout << "union " << it->first.capsula()._nombre <<std::endl;
-
-    }
-    return;
-  }
+  return;
+}
 
 
 
@@ -278,7 +287,7 @@ bool es_cero(char c);
 bool es_x(char c);
 bool es_o(char c);
 bool es_numero_sin_cero(char c);
-bool es_numero_con_cero(char cautomata_string);
+bool es_numero_con_cero(char c);
 bool es_octal(char c);
 bool es_hex(char c);
 //----------------------------------------------------

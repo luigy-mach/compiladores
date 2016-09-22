@@ -100,13 +100,6 @@ void init_automata_string(AFD & automata_string){
 
 
 
-  // -1 =  no inicial
-  // 0 = error
-  // 1 = STRING
-  // 2 = QUE_SERA_?
-
-
-
 }
 
 
@@ -149,7 +142,110 @@ void init_automata_numerico(AFD & automata_numerico){
 
 
 
+void tokenizar_archivo(const string& nombre_archivo, vector< pair<string,string> >& lexemas_tokens){
 
+  /////////////////////////////////////////////////////
+  //tabla de tokens
+  /////////////////////////////////////////////////////
+  TABLA mytabla;
+  mytabla.iniciar_tokens_especificos();
+  // mytabla.insertar_token_no_especifico("id1","ID",100,125,"error_fatal","matate");
+  //mytabla.imprimir_tabla();
+  /////////////////////////////////////////////////////
+  //fin tabla de tokens
+  /////////////////////////////////////////////////////
+
+
+  /////////////////////////////////////////////////////
+  //automaton++
+  /////////////////////////////////////////////////////
+  map <int,string> map_token_general;
+  map_token_general.insert ( std::pair<int,string>(0,"CADENA INVALIDA_NUMERO") );
+  map_token_general.insert ( std::pair<int,string>(1,"CERO") );
+  map_token_general.insert ( std::pair<int,string>(2,"NUMERO") );
+  map_token_general.insert ( std::pair<int,string>(6,"OCTAL") );
+  map_token_general.insert ( std::pair<int,string>(5,"HEXADECIMAL") );
+
+  map_token_general.insert ( std::pair<int,string>(100,"CADENA INVALIDA_STRING") );
+  map_token_general.insert ( std::pair<int,string>(101,"ID") );
+  map_token_general.insert ( std::pair<int,string>(102,"ID") );
+  map_token_general.insert ( std::pair<int,string>(104,"STRING") );
+  map_token_general.insert ( std::pair<int,string>(-34404,"ERROR_CADENA") );
+
+  AFD automata_string;
+  init_automata_string(automata_string);
+
+
+  AFD automata_numerico;
+  init_automata_numerico(automata_numerico);
+
+  /////////////////////////////////////////////////////
+  //fin automaton++
+  /////////////////////////////////////////////////////
+
+
+  string buffer;
+  cargar_buffer(buffer,"archivos/normalizado.txt");
+  // cout<<buffer<<endl;
+  string::iterator it1;
+  string::iterator it2;
+  it1=it2=buffer.begin();
+
+  string token_string;
+
+  cout<<"++++++++++++++++++++++"<<endl;
+  int id_count_numero=0;
+  int id_count_string=0;
+  while(it2!=buffer.end()){
+    if(*it2==' ' || *it2=='\n'){
+      string lexema_string(it1,it2);
+      removeCharsFromString( lexema_string, "        \n" );
+      cout<<"_____________________"<<endl;
+      cout<<"\""<<lexema_string<<"\""<<endl;
+      cout<<"_____________________"<<endl;
+
+      buffer.erase(it1,it2);
+      it1=it2=buffer.begin();
+      // it2=it1;
+      it2++;
+      buffer.erase(it1,it2);
+      it1=it2=buffer.begin();
+      bool encontrado = mytabla.buscar(lexema_string,token_string);
+      if(encontrado){
+        lexemas_tokens.push_back(make_pair(lexema_string,token_string));
+
+      }
+      else{
+        capsula temp2("prueba",true);
+
+        cout<<"_____________________"<<endl;
+        int caso1 = automata_numerico.verificar_entrada(&lexema_string,temp2);
+        cout<<lexema_string<<" _caso1"<<endl;
+        cout<<caso1<<" _caso1"<<endl;
+        if(caso1!=-34404 && caso1!=0){
+          string temp_token_str1=map_token_general[automata_numerico.verificar_entrada(&lexema_string,temp2)];
+          lexemas_tokens.push_back(make_pair(lexema_string,temp_token_str1+to_string(id_count_numero)));
+          id_count_numero++;
+          cout<<caso1<<" _caso1 gou!"<<endl;
+        }
+
+        cout<<"_____________________"<<endl;
+        int caso2 = automata_string.verificar_entrada(&lexema_string,temp2);
+        cout<<lexema_string<<" _caso2"<<endl;
+        cout<<caso2<<" _caso2"<<endl;
+        if(caso2!=-34404 && caso2!=100){
+          string temp_token_str2=map_token_general[automata_string.verificar_entrada(&lexema_string,temp2)];
+          lexemas_tokens.push_back(make_pair(lexema_string,temp_token_str2 + std::to_string(id_count_string)));
+          id_count_string++;
+          cout<<caso2<<" _caso2 gou!"<<endl;
+        }
+
+      }
+    }
+    it2++;
+  }
+  cout<<"++++++++++++++++++++++"<<endl;
+}
 
 
 
@@ -168,8 +264,6 @@ vector< pair<string,string> >::iterator it_lexemas_tokens;
 /////////////////////////////////////////////////////
 
 
-
-
 /////////////////////////////////////////////////////
 //preprocesado
 ///////////////////////////////////////////////////////
@@ -181,148 +275,21 @@ vector< pair<string,string> >::iterator it_lexemas_tokens;
 //fin preprocesado
 /////////////////////////////////////////////////////
 
-
-
-/////////////////////////////////////////////////////
-//tabla de tokens
-/////////////////////////////////////////////////////
-TABLA mytabla;
-mytabla.iniciar_tokens_especificos();
-// cout<<"........................................................"<<endl;
-// //mytabla.imprimir_tabla();
-// cout<<"........................................................"<<endl;
-// mytabla.insertar_token_no_especifico("id2","ID",11000,1125,"todo bien","vacio");
-// mytabla.insertar_token_no_especifico("id1","ID",100,125,"error_fatal","matate");
-//mytabla.imprimir_tabla();
-
-/////////////////////////////////////////////////////
-//fin tabla de tokens
-/////////////////////////////////////////////////////
-
-
-
-
-/////////////////////////////////////////////////////
-//automaton++
-/////////////////////////////////////////////////////
-map <int,string> map_token_general;
-map_token_general.insert ( std::pair<int,string>(0,"CADENA INVALIDA_NUMERO") );
-map_token_general.insert ( std::pair<int,string>(1,"CERO") );
-map_token_general.insert ( std::pair<int,string>(2,"NUMERO") );
-map_token_general.insert ( std::pair<int,string>(6,"OCTAL") );
-map_token_general.insert ( std::pair<int,string>(5,"HEXADECIMAL") );
-
-map_token_general.insert ( std::pair<int,string>(100,"CADENA INVALIDA_STRING") );
-map_token_general.insert ( std::pair<int,string>(101,"ID") );
-map_token_general.insert ( std::pair<int,string>(102,"ID") );
-map_token_general.insert ( std::pair<int,string>(104,"STRING") );
-
-AFD automata_string;
-init_automata_string(automata_string);
-
-
-AFD automata_numerico;
-init_automata_numerico(automata_numerico);
-
-
-
-
-
-/////////////////////////////////////////////////////
-//automaton++
-/////////////////////////////////////////////////////
-
-
-
-
-
-
-
 /////////////////////////////////////////////////////
 //tokenizando
 /////////////////////////////////////////////////////
+tokenizar_archivo("archivos/normalizado.txt", lexemas_tokens);
+/////////////////////////////////////////////////////
+//fin tokenizando
+/////////////////////////////////////////////////////
+cout<<"*********************"<<endl;
+it_lexemas_tokens=lexemas_tokens.begin();
+while(it_lexemas_tokens!=lexemas_tokens.end()){
+  cout<<it_lexemas_tokens->first<<" -> "<<it_lexemas_tokens->second<<endl;
 
-  string buffer;
-  cargar_buffer(buffer,"archivos/normalizado.txt");
-  // cout<<buffer<<endl;
-  string::iterator it1;
-  string::iterator it2;
-  it1=it2=buffer.begin();
-
-  string token_string;
-
-  cout<<"++++++++++++++++++++++"<<endl;
-  int id_count_numero=0;
-  int id_count_string=0;
-  while(it2!=buffer.end()){
-    if(*it2==' ' || *it2=='\n'){
-      string lexema_string(it1,it2);
-      removeCharsFromString( lexema_string, "        \n" );
-      cout<<"\""<<lexema_string<<"\""<<endl;
-      buffer.erase(it1,it2);
-      it1=it2=buffer.begin();
-      // it2=it1;
-      it2++;
-      buffer.erase(it1,it2);
-      it1=it2=buffer.begin();
-      bool encontrado = mytabla.buscar(lexema_string,token_string);
-      if(encontrado){
-        lexemas_tokens.push_back(make_pair(lexema_string,token_string));
-      }
-      else{
-        // lexemas_tokens.push_back(make_pair(lexema_string,"falta automata"));
-        capsula temp2("prueba",true);
-
-        // string temp_token_str;
-
-        cout<<"_____________________"<<endl;
-        int caso1 = automata_numerico.verificar_entrada(&lexema_string,temp2);
-        cout<<lexema_string<<" _caso1"<<endl;
-        cout<<caso1<<" _caso1"<<endl;
-        if(caso1!=0){
-          cout<<caso1<<" _caso1 gou!"<<endl;
-          //string temp_token_str = map_token_numerico[automata_numerico.verificar_entrada(&lexema_string,temp2)];
-          // cout<<map_token_numerico[automata_numerico.verificar_entrada(&lexema_string,temp2)]<<endl;
-          string temp_token_str1=map_token_general[automata_numerico.verificar_entrada(&lexema_string,temp2)];
-          lexemas_tokens.push_back(make_pair(lexema_string,temp_token_str1+to_string(id_count_numero)));
-          id_count_numero++;
-          //continue;
-        }
-
-        cout<<"_____________________"<<endl;
-        int caso2 = automata_string.verificar_entrada(&lexema_string,temp2);
-        cout<<lexema_string<<" _caso2"<<endl;
-        cout<<caso2<<" _caso2"<<endl;
-        if(caso2!=0){
-          cout<<caso2<<" _caso2 gou!"<<endl;
-          //string temp_token_str = map_token_string[automata_numerico.verificar_entrada(&lexema_string,temp2)];
-          string temp_token_str2=map_token_general[automata_string.verificar_entrada(&lexema_string,temp2)];
-          lexemas_tokens.push_back(make_pair(lexema_string,temp_token_str2 + std::to_string(id_count_string)));
-          id_count_string++;
-          //continue;
-        }
-
-
-
-      }
-    }
-    it2++;
-  }
-  cout<<"++++++++++++++++++++++"<<endl;
-
-  cout<<"*********************"<<endl;
-  it_lexemas_tokens=lexemas_tokens.begin();
-  while(it_lexemas_tokens!=lexemas_tokens.end()){
-    cout<<it_lexemas_tokens->first<<" -> "<<it_lexemas_tokens->second<<endl;
-
-    it_lexemas_tokens++;
-  }
-  cout<<"*********************"<<endl;
-
-  /////////////////////////////////////////////////////
-  //fin tokenizando
-  /////////////////////////////////////////////////////
-
+  it_lexemas_tokens++;
+}
+cout<<"*********************"<<endl;
 
 
 

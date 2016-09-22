@@ -50,49 +50,119 @@ void init_automata_numerico(AFD & automata_numerico){
 
 
 
+
+void init_automata_string(AFD & automata_string){
+
+  // -1 estado inicial
+  // 0 no terminal
+  // >0 terminal
+
+  automata_string.insertar_estado(capsula("q100"),-100); // inicial
+  automata_string.insertar_estado(capsula("q101"), 100); // terminal 101
+  automata_string.insertar_estado(capsula("q102"), 102); // terminal 102
+  automata_string.insertar_estado(capsula("q103"), 100); //  no terminal q103
+  automata_string.insertar_estado(capsula("q104"), 104); // terminal 102
+
+  // automata_string.insertar_transicion(capsula(""),capsula(""),*pf);
+  automata_string.insertar_transicion(capsula("q100"),capsula("q101"),*es_letra);
+  automata_string.insertar_transicion(capsula("q100"),capsula("q101"),*es_guion_bajo);
+
+  automata_string.insertar_transicion(capsula("q101"),capsula("q102"),*es_numero);
+  automata_string.insertar_transicion(capsula("q101"),capsula("q102"),*es_letra);
+
+  automata_string.insertar_transicion(capsula("q102"),capsula("q102"),*es_numero);
+  automata_string.insertar_transicion(capsula("q102"),capsula("q102"),*es_letra);
+
+  automata_string.insertar_transicion(capsula("q100"),capsula("q103"),*es_comilla);
+  automata_string.insertar_transicion(capsula("q103"),capsula("q103"),*es_letra);
+  automata_string.insertar_transicion(capsula("q103"),capsula("q103"),*es_numero);
+  automata_string.insertar_transicion(capsula("q103"),capsula("q103"),*es_guion_bajo);
+
+  automata_string.insertar_transicion(capsula("q103"),capsula("q104"),*es_comilla);
+
+
+
+
+  // -1 =  no inicial
+  // 0 = error
+  // 1 = STRING
+  // 2 = QUE_SERA_?
+
+
+
+}
+
 int main(int argc, char *argv[]){
 // int main(){
 
-  /////////////////// TABLE TOKENS /////////////////////
-  map <int,string> token;
- token.insert ( std::pair<int,string>(0,"cadena invalida") );
- token.insert ( std::pair<int,string>(1,"cero") );
- token.insert ( std::pair<int,string>(2,"numero") );
- token.insert ( std::pair<int,string>(6,"octal") );
- token.insert ( std::pair<int,string>(5,"hexadecimal") );
- token.insert ( std::pair<int,string>(100,"tmr") );
- //------------------------------------------------------
+ //  /////////////////// TABLE TOKENS /////////////////////
+ //  map <int,string> token;
+ // token.insert ( std::pair<int,string>(0,"cadena invalida") );
+ // token.insert ( std::pair<int,string>(1,"cero") );
+ // token.insert ( std::pair<int,string>(2,"numero") );
+ // token.insert ( std::pair<int,string>(6,"octal") );
+ // token.insert ( std::pair<int,string>(5,"hexadecimal") );
+ // token.insert ( std::pair<int,string>(100,"tmr") );
+ // //------------------------------------------------------
+ //
+ // /////////////////////ESTADOS//////////////////////
+ // // -1 estado inicial
+ // // 0 no terminal
+ // // >0 terminal
+ // /////////////////////////////////////////////////
+ //
+ //  AFD automata_numerico;
+ //  init_automata_numerico(automata_numerico);
 
- /////////////////////ESTADOS//////////////////////
- // -1 estado inicial
- // 0 no terminal
- // >0 terminal
- /////////////////////////////////////////////////
 
-  AFD automata_numerico;
-  init_automata_numerico(automata_numerico);
+ map <int,string> map_token_general;
+ map_token_general.insert ( std::pair<int,string>(0,"CADENA INVALIDA_NUMERO") );
+ map_token_general.insert ( std::pair<int,string>(1,"CERO") );
+ map_token_general.insert ( std::pair<int,string>(2,"NUMERO") );
+ map_token_general.insert ( std::pair<int,string>(6,"OCTAL") );
+ map_token_general.insert ( std::pair<int,string>(5,"HEXADECIMAL") );
+
+ map_token_general.insert ( std::pair<int,string>(100,"CADENA INVALIDA_STRING") );
+ map_token_general.insert ( std::pair<int,string>(101,"ID") );
+ map_token_general.insert ( std::pair<int,string>(102,"ID") );
+ map_token_general.insert ( std::pair<int,string>(104,"STRING") );
+ map_token_general.insert ( std::pair<int,string>(34404,"error") );
 
 
-  AUTOMATON automaton;
-  automaton.insertar_estado(capsula("q101"),-1); // inicial
-  automaton.insertar_estado(capsula("q102"),100); // inicial
-  automaton.insertar_transicion(capsula("q101"),capsula("q102"),*es_cero);
-  //automaton.insertar_transicion(capsula("q102"),capsula("q102"),*es_cero);
+ AFD automata_string;
+ init_automata_string(automata_string);
+
+
+ AFD automata_numerico;
+ init_automata_numerico(automata_numerico);
+
+
+
+
+  //
+  //
+  // AUTOMATON automaton;
+  // automaton.insertar_estado(capsula("q101"),-1); // inicial
+  // automaton.insertar_estado(capsula("q102"),100); // inicial
+  // automaton.insertar_transicion(capsula("q101"),capsula("q102"),*es_cero);
+  // //automaton.insertar_transicion(capsula("q102"),capsula("q102"),*es_cero);
 
 
   capsula temp1;
   string my1="00000";
   // cout<< token[automaton.verificar_entrada(&my1)] <<endl;
-  cout<< automaton.verificar_entrada(&my1,temp1)<<endl;
+
+  //cout<< automaton.verificar_entrada(&my1,temp1)<<endl;
+
 
   // uniendo automatas
-  automaton.unir_automata_con(capsula("q102"),automata_numerico,*es_cero);
+  //automaton.unir_automata_con(capsula("q102"),automata_numerico,*es_cero);
 
 
   capsula temp2("prueba",true);
-
-  string my2="000o23";
-  cout<< token[automata_numerico.verificar_entrada(&my2,temp2)] <<endl;
+  
+  string my2="aaaa";
+  cout<< map_token_general[automata_string.verificar_entrada(&my2,temp2)] <<endl;
   cout<<"_nombre: "<< temp2._nombre <<endl; //nodo donde termino
   cout<<"_error: "<< temp2._error <<endl; //tiene error?
   cout<<"////////////todo ok"<<endl;

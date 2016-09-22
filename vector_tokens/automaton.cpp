@@ -85,7 +85,7 @@ bool es_hex(char c){
 // funciones string
 //----------------------------------------------------
 bool es_letra(char c){
-  return ((c>=65 && c<=90) || (c>=97 && c<=122))?true:false;
+  return ((c>=65 && c<=90)||(c>=97 && c<=122))?true:false;
 }
 
 bool es_guion_bajo(char c){
