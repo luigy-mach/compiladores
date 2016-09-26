@@ -192,7 +192,7 @@ void Analizador_Lexico::tokenizar_archivo(const string& nombre_archivo, vector< 
 
   string token_string;
 
-  cout<<"+++++++++aaaaaa+++++++++++++"<<endl;
+  cout<<"++++++++++++++++++++++"<<endl;
   int id_count_numero=0;
   int id_count_string=0;
   while(it2!=buffer.end()){
@@ -234,7 +234,8 @@ void Analizador_Lexico::tokenizar_archivo(const string& nombre_archivo, vector< 
         cout<<caso2<<" _caso2"<<endl;
         if(caso2!=-34404 && caso2!=100){
           string temp_token_str2=map_token_general[automata_string.verificar_entrada(&lexema_string,temp2)];
-          lexemas_tokens.push_back(make_pair(lexema_string,temp_token_str2 + std::to_string(id_count_string)));
+         // lexemas_tokens.push_back(make_pair(lexema_string,temp_token_str2 + std::to_string(id_count_string)));
+          lexemas_tokens.push_back(make_pair(lexema_string,temp_token_str2));
           id_count_string++;
           cout<<caso2<<" _caso2 gou!"<<endl;
         }

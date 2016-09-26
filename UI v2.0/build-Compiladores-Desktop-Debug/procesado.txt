@@ -1,9 +1,9 @@
-int -> ID0
-a -> ID1
+int -> ID
+a -> ID
 3 -> NUMERO0
-string -> ID2
-hola -> ID3
-"aaaaa" -> STRING4
-double -> ID5
-b -> ID6
+string -> ID
+hola -> ID
+"aaaaa" -> STRING
+double -> ID
+b -> ID
 34 -> NUMERO1
