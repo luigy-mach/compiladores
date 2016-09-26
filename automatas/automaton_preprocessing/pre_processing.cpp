@@ -19,20 +19,36 @@ void pre_processing::cargar_buffer(char* &buffer,const char* file_name){
 }
 
 void pre_processing::borrar_segmento_cadena(string& buffer,string::iterator& it_marca,string::iterator& it1,string::iterator& it2){
-  it_marca=it1;
-  string::iterator itt1=it1;
-  string::iterator itt2=it2;
-  string temp="";
-  while(itt1!=itt2){
-    temp+=*itt1;
-    itt1++;
-  }
-
+  // it_marca=it1;
+  // string::iterator itt1=it1;
+  // string::iterator itt2=it2;
+  // string temp="";
+  // while(itt1!=itt2){
+  //   temp+=*itt1;
+  //   itt1++;
+  // }
+  // cout<<"***"<<temp<<endl;
   buffer.erase(it1,it2);
-  buffer.insert(it_marca,'\n');
-  it1=it_marca;
-  it2=it_marca;
+  buffer.insert(it1,'\n');
+  // it1=it_marca;
+  // it2=it_marca;
 }
+//
+// void pre_processing::borrar_segmento_cadena(string& buffer,string::iterator& it_marca,string::iterator& it1,string::iterator& it2){
+//   it_marca=it1;
+//   string::iterator itt1=it1;
+//   string::iterator itt2=it2;
+//   string temp="";
+//   while(itt1!=itt2){
+//     temp+=*itt1;
+//     itt1++;
+//   }
+//
+//   buffer.erase(it1,it2);
+//   buffer.insert(it_marca,'\n');
+//   it1=it_marca;
+//   it2=it_marca;
+// }
 
 
 void pre_processing::borrar_comentarios_buffer(string& buffer){
@@ -43,8 +59,7 @@ void pre_processing::borrar_comentarios_buffer(string& buffer){
   it_marca=it1=it2=buffer.begin();
   bool comentario_abierto=false;
   while(it2!=buffer.end()){
-
-    if(!comentario_abierto && *it2=='/'){
+    if(*it2=='/'){
           it1=it2;
           it2++;
           if(*it2=='/'){
@@ -57,30 +72,80 @@ void pre_processing::borrar_comentarios_buffer(string& buffer){
           else if(*it2=='*'){
               comentario_abierto=true;
               it2++;
+              while(comentario_abierto){
+                if(*it2=='*'){
+                  it2++;
+                  it_temp=it2;
+                  if(*it_temp=='/'){
+                    it_temp++;
+                    borrar_segmento_cadena(buffer,it_marca,it1,it_temp);
+                    comentario_abierto=false;
+                  }
+                }
+                it2++;
+              }
+              if(it2==buffer.end()){
+                borrar_segmento_cadena(buffer,it_marca,it1,it2);
+              }
           }
-    }
-    else if(comentario_abierto){
-      if(*it2=='*'){
-        it_temp=it2;
-        it_temp++;
-        if(*it_temp=='/' || it_temp==buffer.end()){
-          it_temp++;
-          if(it_temp!=buffer.end()){
-            borrar_segmento_cadena(buffer,it_marca,it1,it_temp);
-          }
-          else{
-            it_temp--;
-            borrar_segmento_cadena(buffer,it_marca,it1,it_temp);
-          }
-          comentario_abierto=false;
-        }
-      }
+      it2=it1;
     }
     it2++;
   }//fin while
 
 
 }
+
+
+
+//
+//
+// void pre_processing::borrar_comentarios_buffer(string& buffer){
+//   string::iterator it_marca;
+//   string::iterator it_temp;
+//   string::iterator it1;
+//   string::iterator it2;
+//   it_marca=it1=it2=buffer.begin();
+//   bool comentario_abierto=false;
+//   while(it2!=buffer.end()){
+//
+//     if(!comentario_abierto && *it2=='/'){
+//           it1=it2;
+//           it2++;
+//           if(*it2=='/'){
+//             while(*it2!='\n'){
+//               it2++;
+//             }
+//             it2++;
+//             borrar_segmento_cadena(buffer,it_marca,it1,it2);
+//           }
+//           else if(*it2=='*'){
+//               comentario_abierto=true;
+//               it2++;
+//           }
+//     }
+//     if(comentario_abierto){
+//       if(*it2=='*'){
+//         it_temp=it2;
+//         it_temp++;
+//         if(*it_temp=='/' || it_temp==buffer.end()){
+//           it_temp++;
+//           if(it_temp!=buffer.end()){
+//             borrar_segmento_cadena(buffer,it_marca,it1,it_temp);
+//           }
+//           else{
+//             it_temp--;
+//             borrar_segmento_cadena(buffer,it_marca,it1,it_temp);
+//           }
+//           comentario_abierto=false;
+//         }
+//       }
+//     }
+//     it2++;
+//   }//fin while
+//
+//
+// }
 
 void pre_processing::imprimir_en_archivo(const string& buff, string output_file){
   std::ofstream outfile (output_file.c_str(),std::ofstream::binary);

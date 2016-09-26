@@ -4,7 +4,7 @@
 #include <vector>
 #include <utility> //pair
 #include<algorithm> //remove
-
+#include<unordered_map>
 
 
 #include "tabla_token.hpp"
@@ -159,7 +159,7 @@ void tokenizar_archivo(const string& nombre_archivo, vector< pair<string,string>
   /////////////////////////////////////////////////////
   //automaton++
   /////////////////////////////////////////////////////
-  map <int,string> map_token_general;
+  unordered_map <int,string> map_token_general;
   map_token_general.insert ( std::pair<int,string>(0,"CADENA INVALIDA_NUMERO") );
   map_token_general.insert ( std::pair<int,string>(1,"CERO") );
   map_token_general.insert ( std::pair<int,string>(2,"NUMERO") );
