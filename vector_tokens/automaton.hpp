@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <map>
+//#include <unordered_map>
 #include <vector>
 
 using namespace std;
@@ -290,6 +291,7 @@ bool es_numero_sin_cero(char c);
 bool es_numero_con_cero(char c);
 bool es_octal(char c);
 bool es_hex(char c);
+bool es_punto(char c);
 //----------------------------------------------------
 //fin funciones numeros
 //----------------------------------------------------

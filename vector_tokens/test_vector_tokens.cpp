@@ -28,20 +28,7 @@ void cargar_buffer(string& string_buffer, const string& archivo){
   if (is) {
     is.seekg (0, is.end);
     int length = is.tellg();
-    is.seekg (0, is.end);
-    int length = is.tellg();
 	  is.seekg (0, is.beg);
-
-    buffer = new char [length];
-    is.read(buffer,length);
-    is.close();
-  }();
-	  is.seekg (0, is.beg);
-
-    buffer = new char [length];
-    is.read(buffer,length);
-    is.close();
-  }
 
     buffer = new char [length];
     is.read(buffer,length);
@@ -66,7 +53,7 @@ template<typename T, typename P>
 T remove_if(T beg, T end, P pred)
 {
     T dest = beg;
-    for (T itr = beg;itr != end; octal++itr)
+    for (T itr = beg;itr != end; ++itr)
         if (!pred(*itr))
             *(dest++) = *itr;
     return dest;
@@ -92,6 +79,7 @@ void init_automata_string(AFD & automata_string){
   automata_string.insertar_estado(capsula("q102"), 102); // terminal 102
   automata_string.insertar_estado(capsula("q103"), 100); //  no terminal q103
   automata_string.insertar_estado(capsula("q104"), 104); // terminal 104
+  automata_string.insertar_estado(capsula("q105"), 104); // terminal 104
 
   // automata_string.insertar_transicion(capsula(""),capsula(""),*pf);
   automata_string.insertar_transicion(capsula("q100"),capsula("q101"),*es_letra);
