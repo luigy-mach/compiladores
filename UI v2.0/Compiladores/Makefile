@@ -1,0 +1,8 @@
+# build an executable named test_vector_tokens
+  all: test_vector_tokens.cpp
+	g++ test_vector_tokens.cpp tabla_token.cpp pre_processing.cpp normalizador.cpp automaton.cpp -std=c++0x -o main
+
+  clean:
+	  $(RM) myprog
+ #g++ test_vector_tokens.cpp tabla_token.cpp pre_processing.cpp normalizador.cpp automaton.cpp
+# g++ test_vector_tokens.cpp tabla_token.cpp pre_processing.cpp normalizador.cpp automaton.cpp -std=c++0x
