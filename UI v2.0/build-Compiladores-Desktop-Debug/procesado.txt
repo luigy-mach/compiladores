@@ -1,13 +1,9 @@
- -> CADENA INVALIDA_NUMERO0
-int -> ID1
-a -> ID2
+int -> ID0
+a -> ID1
 3 -> NUMERO0
-string -> ID3
-hola -> ID4
-"aaaaa" -> STRING5
- -> CADENA INVALIDA_NUMERO6
-double -> ID7
-b -> ID8
+string -> ID2
+hola -> ID3
+"aaaaa" -> STRING4
+double -> ID5
+b -> ID6
 34 -> NUMERO1
- -> CADENA INVALIDA_NUMERO9
-ount -> ID10

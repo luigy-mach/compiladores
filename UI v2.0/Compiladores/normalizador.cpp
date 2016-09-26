@@ -105,7 +105,16 @@ void normalizador::normalizar_archivo(const string& in,const string& out)
     while ( getline (inf,buffer) )
     {
       normalizar_cadena(buffer,pointer,mymap);
-      ouf << buffer << '\n';
+      if(buffer.length()==0)
+      {
+          continue;
+      }
+      else
+      {
+        ouf << buffer << '\n';
+
+      }
+
     }
     inf.close();
     ouf.close();
