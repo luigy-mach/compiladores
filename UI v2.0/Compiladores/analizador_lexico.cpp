@@ -11,7 +11,9 @@ void Analizador_Lexico::cargar_buffer(string& string_buffer, const string& archi
 
 
   std::ifstream is (file_name, std::ifstream::binary);
+
   if (is) {
+  // qDebug() << "Inside  is:::";
     is.seekg (0, is.end);
     int length = is.tellg();
       is.seekg (0, is.beg);
@@ -182,15 +184,15 @@ void Analizador_Lexico::tokenizar_archivo(const string& nombre_archivo, vector< 
 
 //qInfo() << "C++ Style Info Message";
   string buffer;
-  cargar_buffer(buffer,"archivos/normalizado.txt");
-  // cout<<buffer<<endl;
+  cargar_buffer(buffer,"normalizado.txt");
+    cout<<buffer<<endl;
   string::iterator it1;
   string::iterator it2;
   it1=it2=buffer.begin();
 
   string token_string;
 
-  cout<<"++++++++++++++++++++++"<<endl;
+  cout<<"+++++++++aaaaaa+++++++++++++"<<endl;
   int id_count_numero=0;
   int id_count_string=0;
   while(it2!=buffer.end()){
@@ -202,7 +204,7 @@ void Analizador_Lexico::tokenizar_archivo(const string& nombre_archivo, vector< 
       cout<<"_____________________"<<endl;
 
       buffer.erase(it1,it2);
-      it1=it2=buffer.begin();
+      it1=it2=buffer.begin(); //qDebug()<<fileName;);
       // it2=it1;
       it2++;
       buffer.erase(it1,it2);
@@ -260,32 +262,39 @@ void Analizador_Lexico::analizar()
     //preprocesado
     ///////////////////////////////////////////////////////
       pre_processing::pre_processing
-              ("archivos/compilar.txt"
-              ,"archivos/preprocesado.txt");// OJO falla con comentarios-> /*largos*/
-      normalizador::normalizador("archivos/preprocesado.txt","archivos/normalizado.txt");
+              ("compilar.txt"
+              ,"preprocesado.txt");
+      normalizador::normalizador("preprocesado.txt","normalizado.txt");
 
     /////////////////////////////////////////////////////
     //fin preprocesado
-    /////////////////////////////////////////////////////
+    ///////////////////rchivos///////////////////////////////////
 
     /////////////////////////////////////////////////////
     //tokenizando
     /////////////////////////////////////////////////////
 
-    tokenizar_archivo("archivos/normalizado.txt", lexemas_tokens);
-    qDebug() << "I am here:::";
-    ///////////////*pointer)//////////////////////////////////////
-    //fin tokenizando
+    tokenizar_archivo("normalizado.txt", lexemas_tokens);
+
+
     /////////////////////////////////////////////////////
-    cout<<"*********************"<<endl;
+    //"fin tokenizando
+    /////////////////////////////////////////////////////
+    cout<<"Antes de Archivo"<<endl;
     ofstream outfile("procesado.txt");
-    //outfile.open();
+
     it_lexemas_tokens=lexemas_tokens.begin();
-    while(it_lexemas_tokens!=lexemas_tokens.end()){
+
+    cout<<"size v tokens"<<lexemas_tokens.size()<<endl;
+
+    while(it_lexemas_tokens!=lexemas_tokens.end())
+    {
+      cout<<it_lexemas_tokens->first<<" -> "<<it_lexemas_tokens->second<<endl;
       outfile<<it_lexemas_tokens->first<<" -> "<<it_lexemas_tokens->second<<endl;
 
       it_lexemas_tokens++;
     }
-    cout<<"*********************"<<endl;
+    cout<<"Despues de Archivo"<<endl;
+
     outfile.close();
 }

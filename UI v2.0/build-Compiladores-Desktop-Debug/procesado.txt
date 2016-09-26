@@ -1,0 +1,13 @@
+ -> CADENA INVALIDA_NUMERO0
+int -> ID1
+a -> ID2
+3 -> NUMERO0
+string -> ID3
+hola -> ID4
+"aaaaa" -> STRING5
+ -> CADENA INVALIDA_NUMERO6
+double -> ID7
+b -> ID8
+34 -> NUMERO1
+ -> CADENA INVALIDA_NUMERO9
+ount -> ID10
