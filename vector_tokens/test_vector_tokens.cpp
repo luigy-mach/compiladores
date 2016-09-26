@@ -28,7 +28,20 @@ void cargar_buffer(string& string_buffer, const string& archivo){
   if (is) {
     is.seekg (0, is.end);
     int length = is.tellg();
+    is.seekg (0, is.end);
+    int length = is.tellg();
 	  is.seekg (0, is.beg);
+
+    buffer = new char [length];
+    is.read(buffer,length);
+    is.close();
+  }();
+	  is.seekg (0, is.beg);
+
+    buffer = new char [length];
+    is.read(buffer,length);
+    is.close();
+  }
 
     buffer = new char [length];
     is.read(buffer,length);
@@ -53,7 +66,7 @@ template<typename T, typename P>
 T remove_if(T beg, T end, P pred)
 {
     T dest = beg;
-    for (T itr = beg;itr != end; ++itr)
+    for (T itr = beg;itr != end; octal++itr)
         if (!pred(*itr))
             *(dest++) = *itr;
     return dest;
@@ -115,21 +128,30 @@ void init_automata_numerico(AFD & automata_numerico){
   automata_numerico.insertar_estado(capsula("q4"), 0); // no terminal
   automata_numerico.insertar_estado(capsula("q5"), 5); // terminal 5
   automata_numerico.insertar_estado(capsula("q6"), 6); // terminal 6
-
+  automata_numerico.insertar_estado(capsula("q7"), 0); // terminal 5
+  automata_numerico.insertar_estado(capsula("q8"), 7); // terminal 6
 
   automata_numerico.insertar_transicion(capsula("q0"),capsula("q1"),*es_cero);
-  automata_numerico.insertar_transicion(capsula("q1"),capsula("q2"),*es_numero_sin_cero);
+  automata_numerico.insertar_transicion(capsula("q0"),capsula("q2"),*es_numero_con_cero);
+  automata_numerico.insertar_transicion(capsula("q0"),capsula("q8"),*es_punto);
+
+  automata_numerico.insertar_transicion(capsula("q2"),capsula("q2"),*es_numero_con_cero);
+
   automata_numerico.insertar_transicion(capsula("q1"),capsula("q1"),*es_cero);
+  automata_numerico.insertar_transicion(capsula("q1"),capsula("q2"),*es_numero_sin_cero);
   automata_numerico.insertar_transicion(capsula("q1"),capsula("q3"),*es_x);
+  automata_numerico.insertar_transicion(capsula("q1"),capsula("q4"),*es_o);
+
   automata_numerico.insertar_transicion(capsula("q3"),capsula("q5"),*es_hex);
   automata_numerico.insertar_transicion(capsula("q5"),capsula("q5"),*es_hex);
 
-  automata_numerico.insertar_transicion(capsula("q1"),capsula("q4"),*es_o);
   automata_numerico.insertar_transicion(capsula("q4"),capsula("q6"),*es_octal);
   automata_numerico.insertar_transicion(capsula("q6"),capsula("q6"),*es_octal);
 
-  automata_numerico.insertar_transicion(capsula("q0"),capsula("q2"),*es_numero_sin_cero);
-  automata_numerico.insertar_transicion(capsula("q2"),capsula("q2"),*es_numero_con_cero);
+  automata_numerico.insertar_transicion(capsula("q7"),capsula("q8"),*es_numero_con_cero);
+  automata_numerico.insertar_transicion(capsula("q8"),capsula("q8"),*es_numero_con_cero);
+
+
 
 
     // -1 =  no inicial
@@ -163,8 +185,9 @@ void tokenizar_archivo(const string& nombre_archivo, vector< pair<string,string>
   map_token_general.insert ( std::pair<int,string>(0,"CADENA INVALIDA_NUMERO") );
   map_token_general.insert ( std::pair<int,string>(1,"CERO") );
   map_token_general.insert ( std::pair<int,string>(2,"NUMERO") );
-  map_token_general.insert ( std::pair<int,string>(6,"OCTAL") );
   map_token_general.insert ( std::pair<int,string>(5,"HEXADECIMAL") );
+  map_token_general.insert ( std::pair<int,string>(6,"OCTAL") );
+  map_token_general.insert ( std::pair<int,string>(7,"DECIMAL") );
 
   map_token_general.insert ( std::pair<int,string>(100,"CADENA INVALIDA_STRING") );
   map_token_general.insert ( std::pair<int,string>(101,"ID") );

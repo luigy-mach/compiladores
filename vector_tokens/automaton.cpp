@@ -74,6 +74,11 @@ bool es_octal(char c){
 bool es_hex(char c){
   return ( es_numero_con_cero(c) || (c>=65 && c<=70) || (c>=97 && c<=102) )?true:false;
 }
+
+bool es_punto(char c){
+  return (c==46)?true:false;
+}
+
 //----------------------------------------------------
 //fin funciones numeros
 //----------------------------------------------------
