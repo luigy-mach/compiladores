@@ -24,6 +24,8 @@ private slots:
 
     void on_btn_Inicializar_clicked();
 
+    void on_btn_reiniciar_clicked();
+
 private:
     Ui::MainWindow *ui;
     Analizador_Lexico * analyzer;

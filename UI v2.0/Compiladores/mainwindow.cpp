@@ -17,7 +17,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_btn_cargar_archivo_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Source Code"), "/home/cs03/compiladores/UI v2.0/build-Compiladores-Desktop-Debug", tr("Files (*.txt)"));
+        tr("Open Source Code"), "/$HOME/WorkSpace/compiladores/UI v2.0/build-Compiladores-Desktop-Debug", tr("Files (*.txt)"));
     QFile file(fileName);
 
     file.open(QFile::ReadOnly | QFile::Text);
@@ -35,7 +35,7 @@ void MainWindow::on_btn_Inicializar_clicked()
     analyzer->analizar();
 
 
-    QString fileName = "/home/cs03/compiladores/UI\ v2.0/build-Compiladores-Desktop-Debug/procesado.txt";
+    QString fileName = "$HOME/WorkSpace/compiladores/UI\ v2.0/build-Compiladores-Desktop-Debug/procesado.txt";
 
 
     QFile file(fileName);
@@ -45,4 +45,10 @@ void MainWindow::on_btn_Inicializar_clicked()
     QTextStream ReadFile(&file);
 
     ui->mostrar_texto->setText(ReadFile.readAll());
+}
+
+void MainWindow::on_btn_reiniciar_clicked()
+{
+    analyzer->reset();
+    ui->mostrar_texto->clear();
 }
