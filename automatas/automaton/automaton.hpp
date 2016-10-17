@@ -127,10 +127,6 @@ public:
   const nodo<A>* nodo_inicio_puntero() const;
 };
 
-  // template<typename A>
-  // automaton<A>::automaton(){
-  //   _root=NULL;
-  // }
 
 template<typename A>
 int automaton<A>::verificar_entrada(string* s, A& out_capsula){
@@ -139,7 +135,6 @@ int automaton<A>::verificar_entrada(string* s, A& out_capsula){
 
   typename string::iterator its = s->begin();
   it_map=_estados.find(*_root);
-  // cout<<"empenzando verificacion"<<endl;
   cout<<it_map->first.capsula()._nombre<<" <- "<<endl;
   while( its != s->end() ){
     it_vec=it_map->second.begin();
@@ -219,7 +214,6 @@ void  automaton<A>::
   it1=_estados.find(xntemp);
 
 
-  // const nodo<A>* xxntemp = automata_fin.nodo_inicio_puntero();
   _estados.insert(automata_fin._estados.begin(),automata_fin._estados.end());
 
   const nodo<A> xxntemp = automata_fin.nodo_inicio();
@@ -230,8 +224,6 @@ void  automaton<A>::
   if( it1!=_estados.end() && it2!=_estados.end() ){
     transicion<A> ttemp(&(it2->first),pf);
     it1->second.push_back(ttemp);
-    // std::cout << "union " << it->first.capsula()._nombre <<std::endl;
-
   }
   return;
 }
@@ -249,17 +241,10 @@ void  automaton<A>::
 //----------------------------------------------------
 //sobrecargas
 //----------------------------------------------------
-// template<typename K>
-// bool operator==(const nodo<K>& a, const nodo<K>& b);
-// template<typename K>
-// bool operator<(const nodo<K>& a, const nodo<K>& b);
-// template<typename K>
-// bool operator>(const nodo<K>& a, const nodo<K>& b);
 
 
 template<typename K>
 bool operator==(const nodo<K>& a, const nodo<K>& b){
-  // return (a.nombre()==b.nombre())?true:false;
   return (a.capsula()._nombre==b.capsula()._nombre)?true:false;
 }
 
