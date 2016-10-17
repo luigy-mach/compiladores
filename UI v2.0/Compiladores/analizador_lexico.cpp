@@ -251,8 +251,8 @@ void Analizador_Lexico::tokenizar_archivo(const string& nombre_archivo, vector< 
 void Analizador_Lexico::analizar()
 {
 
-    vector< pair<string,string> > lexemas_tokens;
-    vector< pair<string,string> >::iterator it_lexemas_tokens;
+    //vector< pair<string,string> > lexemas_tokens;
+    //vector< pair<string,string> >::iterator it_lexemas_tokens;
 
     /////////////////////////////////////////////////////
     //fin array lexemas
@@ -298,4 +298,8 @@ void Analizador_Lexico::analizar()
     cout<<"Despues de Archivo"<<endl;
 
     outfile.close();
+}
+void Analizador_Lexico::reset()
+{
+    lexemas_tokens.clear();
 }
