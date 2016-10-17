@@ -23,9 +23,6 @@ using namespace std;
 
 class Analizador_Lexico
 {
-private:
-    vector< pair<string,string> > lexemas_tokens;
-    vector< pair<string,string> >::iterator it_lexemas_tokens;
 public:
     Analizador_Lexico();
     void cargar_buffer(string& string_buffer, const string& archivo);
@@ -35,8 +32,6 @@ public:
     void init_automata_numerico(AFD & automata_numerico);
     void tokenizar_archivo(const string& nombre_archivo, vector< pair<string,string> >& lexemas_tokens);
     void analizar();
-    void reset();
-
 };
 
 #endif // ANALIZADOR_LEXICO_H
