@@ -182,27 +182,31 @@ public:
             for(auto it2=it1->second.begin();it2!=it1->second.end();it2++){
                 if(it2->second==STR_SIMBOLO_LAMBDA){
                     cout<<"lambda encontrad"<<endl;
-
                     auto e_seg=_segundos.find(it1->first);
                     if(e_seg!=_segundos.end()){
                         for(auto i=e_seg->second.begin();i!=e_seg->second.end();i++){
                             vector<string> t;
-                            // t.push_back(STR_SIMBOLO_LAMBDA);
-                            insertar_en_tabla(it1->first,*i,t);
-                        }
-                    }else{
-                        cout<<"algo malo pasa aqui"<<endl;
+                            t.push_back(STR_SIMBOLO_LAMBDA);
+                            insertar_en_tabla(it1->first,i->second,t);
+                        }    
+                    }
+                    else
+                    {
+                        cout<<"algo malo paso encontrado lambda"<<endl;
                     }
 
                 }
-                else{
-                    // auto  
+                else
+                {
+                    auto  
                     // auto it=find(vec.begin(),vec.end(),"a");
-                    // if(it1->first){
-                    //    cout<<"camino corto"<<endl; 
-                    // }else{
-                    //     cout<<"camino largo"<<endl;
-                    // }
+                    if(it1->first){
+                       cout<<"camino corto"<<endl; 
+                    }
+                    else
+                    {
+                        cout<<"camino largo"<<endl;
+                    }
                 }
             }
         }
@@ -214,7 +218,14 @@ public:
         //BORRAR//////////////////////
             //emulando simbolos
             _estados_no_terminales.insert({{"E","E"},{"T","T"},{"T1","T1"},{"E1","E1"},{"F","F"}});
-            _simbolos.insert({{"(","("},{")",")"},{"+","+"},{"-","-"},{"/","/"},{"*","*"}});
+            _simbolos.insert({{"(","("},
+                              {")",")"},
+                              {"+","+"},
+                              {"-","-"},
+                              {"/","/"},
+                              {"*","*"},
+                              {STR_DOLAR,STR_DOLAR}
+                              });
         //FIN-BORRAR//////////////////
     }
 
@@ -245,9 +256,15 @@ public:
     }
 
     bool insertar_en_tabla(string str1,string str2 ,vector<string> vec){
-        auto tt = _tabla.find(str1);
-        if(tt!=_tabla.end()){
-            tt->second.insert({{str2},{vec}});
+        auto cc = _tabla.find(str1);
+        if(cc!=_tabla.end()){
+            auto ff=cc->second.find(str2);
+            if(ff!=cc->second.end()){
+                ff->second=vec;
+            }else{
+                return false;    
+            }
+            
         }
         else{
             return false;
