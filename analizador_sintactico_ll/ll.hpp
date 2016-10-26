@@ -196,11 +196,16 @@ public:
                     }
 
                 }
-                else
+                else if(it2->second!=STR_SIMBOLO_LAMBDA)
                 {
-                    auto  
+                    auto e_prim = _primeros.find(it1->first);
+                    if(e_prim!=_primeros.end()){
+
+                    }else{
+                        cout<<"algo malo paso encontrado lambda"<<endl;
+                    } 
                     // auto it=find(vec.begin(),vec.end(),"a");
-                    if(it1->first){
+                    if(){
                        cout<<"camino corto"<<endl; 
                     }
                     else
