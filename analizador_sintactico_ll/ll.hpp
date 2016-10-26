@@ -198,19 +198,19 @@ public:
                 }
                 else if(it2->second!=STR_SIMBOLO_LAMBDA)
                 {
-                    auto e_prim = _primeros.find(it1->first);
-                    if(e_prim!=_primeros.end()){
-
-                    }else{
-                        cout<<"algo malo paso encontrado lambda"<<endl;
-                    } 
-                    // auto it=find(vec.begin(),vec.end(),"a");
-                    if(){
-                       cout<<"camino corto"<<endl; 
-                    }
-                    else
-                    {
-                        cout<<"camino largo"<<endl;
+                    auto e_prim=_primeros.equal_range(it1->first);
+                    for(auto i=e_prim.first;i!=e_prim.second();i++){
+                        
+                        if(){
+                            cout<<"camino corto"<<endl;
+                             
+                        }
+                        else
+                        {
+                            //recursividad
+                            // auto it=find(vec.begin(),vec.end(),"a");
+                            cout<<"camino largo"<<endl;
+                        }
                     }
                 }
             }
