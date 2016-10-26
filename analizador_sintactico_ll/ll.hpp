@@ -154,32 +154,42 @@ public:
         for(IT_FILA i=_estados_terminales.begin();i!=_estados_terminales.end();i++){
             vector<string> vec;
             vec.push_back(STR_ERROR_TABLA);
+            // cout<<"....."<<i->first<<endl;
             temp_fila.insert({{i->first},{vec}});
         }
 
         for(IT_FILA i=_simbolos.begin();i!=_simbolos.end();i++){
             vector<string> vec;
             vec.push_back(STR_ERROR_TABLA);
+            // cout<<"....."<<i->first<<endl;
             temp_fila.insert({{i->first},{vec}});
         }
         
         for(IT_FILA i=_estados_no_terminales.begin();i!=_estados_no_terminales.end();i++){
+            // cout<<"....."<<i->first<<endl;
             _tabla.insert({{i->first},{temp_fila}});
         }
     }
 
-    bool validar_estado_recursivo(string e,string simbolo){
-        auto it = _gramatica.equal_range(e);
-        for(auto m=it.first;m!=it.second;m++){
 
-        }
-    }
 
     void generar_tabla(){
         generar_tabla_vacia();
+
+        cout<<"xxxxxxxxxxxxxxxxxxxxxxxxx"<<endl;
+        for(IT_CONJUNTO i=_primeros.begin();i!=_primeros.end();i++){
+        cout<< i->first << "->" ;
+        for(IT_FILA j=i->second.begin();j!=i->second.end();j++){   
+            cout<<" "<< j->second <<" ";        
+        }
+        cout<<endl;
+        }
+        cout<<"xxxxxxxxxxxxxxxxxxxxxxxxx"<<endl;
  
         for(auto it1=_primeros.begin();it1!=_primeros.end();it1++){
             for(auto it2=it1->second.begin();it2!=it1->second.end();it2++){
+                cout<<"********1"<<it1->first<<endl;
+                cout<<"********2"<<it2->second<<endl;
                 if(it2->second==STR_SIMBOLO_LAMBDA){
                     cout<<"lambda encontrad"<<endl;
                     auto e_seg=_segundos.find(it1->first);
@@ -195,42 +205,90 @@ public:
                         cout<<"algo malo paso encontrado lambda"<<endl;
                     }
 
-                }
-                else if(it2->second!=STR_SIMBOLO_LAMBDA)
-                {
-                    auto e_prim=_primeros.equal_range(it1->first);
-                    for(auto i=e_prim.first;i!=e_prim.second();i++){
-                        
-                        if(){
-                            cout<<"camino corto"<<endl;
-                             
+                }else{
+                //if(it2->second!=STR_SIMBOLO_LAMBDA)
+                    auto e_prim=_gramatica.equal_range(it1->first);
+                    bool camino_corto=false;
+                    for(auto tt=e_prim.first;tt!=e_prim.second;tt++){
+                        auto xx=tt->second.begin();
+                        if(xx!=tt->second.end()){
+                            if(es_terminal(*xx) && (*xx)==it2->second){
+                                vector<string> vec_temp;
+                                vec_temp=tt->second;
+                                insertar_en_tabla(it1->first,it2->second,vec_temp);
+                                
+                            }
+                               // camino_corto=true;
+                        }else{
+                            cout<<"otro bentido errror;"<<endl;
                         }
-                        else
-                        {
-                            //recursividad
-                            // auto it=find(vec.begin(),vec.end(),"a");
-                            cout<<"camino largo"<<endl;
-                        }
+                       
                     }
+                    if(camino_corto){
+                        cout<<"camino corto"<<endl;
+                        break;
+                    }
+                    else
+                    {
+                        cout<<"camino largo"<<endl;
+
+                    }
+                
                 }
             }
+            cout<<"------fin"<<endl;
         }
 
     }
+void insertar_2(string ent,string simb){
+    
+    // auto itt = _gramatica.equal_range(ent);
+    // for(auto it=itt.first;it!=itt.second;it++){
+    //     //  cout<<it->first<<endl;
+    //     auto ii=it->second.begin();
+    //     bool aceptacion=false;
+    //     if(ii!=it->second.end()){
+    //         // aqui recursividad
+    //         // insertar_recursiva(ent,ent,simb,aceptacion);
+    //     }else{
+    //         //no deberia pasar
+    //         cout<<"esto no deberia pasar:"<<STR_ERROR_CODIGO<<endl;
+    //     }
+
+    //     // cout<<"*********"<<endl;
+    // }
+}
+
+bool insertar_recursiva(string ent,string simb,bool& aceptacion){
+
+    // if(es_terminal(*ii) && *ii==simb){
+    //     aceptacion=true;
+    // }else{
+    //     insertar_recursiva(ent_c,*ii,simb);
+    // }
+    // // vector<string> t;
+    // //     t=it->second;
+    // //     insertar_en_tabla(ent_c,simb,t,);
+        
+}
+
+
 
 
     void extraer_simbolos(){
         //BORRAR//////////////////////
             //emulando simbolos
             _estados_no_terminales.insert({{"E","E"},{"T","T"},{"T1","T1"},{"E1","E1"},{"F","F"}});
-            _simbolos.insert({{"(","("},
+            _simbolos.insert({{"id","id"},
+                              {"num","num"},
+                              {"(","("},
                               {")",")"},
                               {"+","+"},
+                              {"*","*"},
                               {"-","-"},
                               {"/","/"},
-                              {"*","*"},
-                              {STR_DOLAR,STR_DOLAR}
-                              });
+                              {STR_SIMBOLO_LAMBDA,STR_SIMBOLO_LAMBDA},
+                              {STR_DOLAR,STR_DOLAR}});
         //FIN-BORRAR//////////////////
     }
 
