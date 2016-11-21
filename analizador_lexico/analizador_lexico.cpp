@@ -46,12 +46,8 @@ void class_analizador_lexico::inicializar_analizardor_lexico(){
     for(it=vec.begin() ; it!=vec.end() ; it++){
         cout<< it->first<<"-------"<<it->second<<endl;    
     }
-
-    
-
-
-
 }
+
 
 void class_analizador_lexico::cargar_automata(){
 
