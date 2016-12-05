@@ -33,7 +33,7 @@ using namespace std;
 #define STR_ERROR_TABLA "error_g_t"
 #define STR_DOLAR "$" 
 
-#define STR_ERROR_CODIGO "matateXD! has hecho algo mal..."
+#define STR_ERROR_CODIGO "matateXD! has hecho algo muy  malo..."
 
 
 
@@ -232,7 +232,7 @@ void generar_tabla(){
 }
 
     bool busqueda_recursiva_en_gramatica(IT_GRAMATICA it,string aencontrar){  
-        cout<<"RATATA!"<<endl;
+        cout<<"parece q todo va bien!"<<endl;
         // cout<<"->>>"<<aencontrar<<endl;
         // for(auto i=it->second.begin();i!=it->second.end();i++){
         //     cout<<"///////"<<*i<<endl;
