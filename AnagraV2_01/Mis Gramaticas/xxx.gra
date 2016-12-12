@@ -1,0 +1,8 @@
+%token q n u
+%%
+S: P M;
+S: M;
+P: E | q;
+M: n E;
+E: ',' O | E;
+O: u | u ',' O;

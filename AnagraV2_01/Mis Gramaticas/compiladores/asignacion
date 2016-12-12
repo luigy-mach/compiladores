@@ -1,0 +1,5 @@
+%token id  value int double float
+%%
+S: A P ';';
+A: int | double | float;
+P: id | id '=' value;

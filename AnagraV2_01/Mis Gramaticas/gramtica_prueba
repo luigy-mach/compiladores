@@ -1,0 +1,8 @@
+%token sum mul id pa pc
+%%
+S : S sum T;
+S: T;
+T: T mul F;
+T: F;
+F: pa S pc;
+F: id;

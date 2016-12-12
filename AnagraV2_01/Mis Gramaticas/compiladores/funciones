@@ -1,0 +1,6 @@
+%token id  g1 g2 g3 void int double float 
+%%
+S: A id '(' C ')' '{' G;
+A: void | int | double | float;
+C: A id | A id ',' C |;
+G:g1 | g2 | g3 | '}';
