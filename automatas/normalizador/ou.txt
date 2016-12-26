@@ -1,6 +1,0 @@
-int myvar = 3 ; 
-char myc = 's' ; 
-int myvsar = 1 ; 
-int myfvar = 2 ; 
-int myvvar = 4 ; 
-int myvbar = 5 ; 

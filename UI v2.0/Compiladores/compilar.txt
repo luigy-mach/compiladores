@@ -1,6 +1,0 @@
-/*asdasdas*/
-int a=3;
-string hola="aaaaa";//esto es una comentario
-/*asdasdas*/
-double b=34;
-/*asdasdas*/

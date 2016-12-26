@@ -71,9 +71,9 @@ void class_tabla_token::iniciar_tokens_especificos(){
   }
 
   for(int i=0;i<v.size();i+=2)
-  {   
+  {
     insertar(v[i],class_token(v[i+1]));
-    
+
   }
 
 }
@@ -81,18 +81,20 @@ void class_tabla_token::iniciar_tokens_especificos(){
 
 void class_tabla_token::iniciar_tabla(){
   this->iniciar_tokens_especificos();
-
 }
+
 
 void class_tabla_token::insertar(const string lexema, const class_token& tok){
   _tabla_token.insert(_newpair(lexema,tok));
 }
+
 
 void class_tabla_token::insertar_token_no_especifico(const string lexema,
                                                const string token_lexema,
                                                const class_error& er){
   _tabla_token.insert(_newpair( lexema,class_token(token_lexema,er)));
 }
+
 
 void class_tabla_token::insertar_token_no_especifico(const string lexema,
                                                const string token_lexema,
@@ -117,5 +119,3 @@ bool class_tabla_token::buscar(string& string_token_in, string& string_token_out
 //----------------------------------------------------
 //fin tabla_token
 //----------------------------------------------------
-
-

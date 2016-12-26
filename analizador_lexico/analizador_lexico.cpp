@@ -1,52 +1,66 @@
 #include "analizador_lexico.hpp"
 
-
-
 //----------------------------------------------------
 //ANALIZADOR_LEXICO
 //----------------------------------------------------
 
 class_analizador_lexico::class_analizador_lexico(){
     _myautomata=new class_automata();
-    _mytabla=new class_tabla_token();    
+    _mytabla=new class_tabla_token();
 }
 
-void class_analizador_lexico::cargar_archivo(string& archivo){
-    //completar
-    archivo="int a = 3; ";
+void class_analizador_lexico::cargar_archivo(string archivo, string& buff ){
+    ifstream in(archivo);
+    string temp="";
+    while(getline(in,temp)){
+      buff+=temp;
+      //cout<<temp<<endl;
+    }
 }
 
-void class_analizador_lexico::inicializar_analizardor_lexico(){
-    string buffer;
+void class_analizador_lexico::inicializar_analizardor_lexico(string archivo){
     this->cargar_automata();
     this->cargar_tabla_token_especificos();
-    this->cargar_archivo(buffer);
+
+    this->cargar_archivo(archivo,_buffer);
     // _mytabla->imprimir_tabla();
 
-    vector< pair<string,string> > vec;
-    vector< pair<string,string> >::iterator it;
-
-    _myautomata->verificar_cadena(buffer,vec);
-    for(it=vec.begin() ; it!=vec.end() ; it++){
-      if(it->second==STR_ESPACIO_EN_BLANCO ||
-         it->second==STR_SALTO_DE_LINEA ||
-         it->second==STR_TABULACION ){
-             //borrar elemento de vector 
-             continue;
-         }
-      if(it->second==STR_STRING_SIN_DEPURAR ||
-         it->second==STR_SIMBOLO_DESCONOCIDO ){
-          string out="";
-          if(_mytabla->buscar(it->first,out)){
-              it->second=out;
-          }
-      }   
-    }
-    
-    for(it=vec.begin() ; it!=vec.end() ; it++){
-        cout<< it->first<<"-------"<<it->second<<endl;    
-    }
 }
+
+void class_analizador_lexico::obtener_vector_tokens(vector< pair<string,string> >& vec){
+
+  vector< pair<string,string> >::iterator it,it_temp;
+
+  _myautomata->verificar_cadena(_buffer,vec);
+
+
+  for(it=vec.begin(); it!=vec.end() ; it++){
+    if(it->second==STR_ESPACIO_EN_BLANCO ||
+       it->second==STR_SALTO_DE_LINEA ||
+       it->second==STR_TABULACION ){
+           //borrar elemento de vector
+           it_temp=it;
+           it_temp=vec.erase(it_temp);
+           cout<<"borrando: "<<it->second<<" <"<<endl;
+           //continue;
+       }
+    else if(it->second==STR_STRING_SIN_DEPURAR ||
+       it->second==STR_SIMBOLO_DESCONOCIDO ){
+        string out="ERROR_EN_TABLA";
+        if(_mytabla->buscar(it->first,out)){
+            cout<<"TOKEN: "<<it->second<<endl;
+            it->second=out;
+        }
+    }
+  }
+
+  for(it=vec.begin() ; it!=vec.end() ; it++){
+      cout<< it->first<<"-------"<<it->second<<endl;
+  }
+
+
+}
+
 
 
 void class_analizador_lexico::cargar_automata(){
@@ -75,7 +89,7 @@ void class_analizador_lexico::cargar_automata(){
   _myautomata->insertar_estado("q19",0,STR_SIN_TOKEN);
   _myautomata->insertar_estado("q20",20,"NUMERO_DOUBLE");
 
-  
+
   _myautomata->insertar_estado("q21",21,STR_SALTO_DE_LINEA);
   _myautomata->insertar_estado("q22",22,STR_TABULACION);
   _myautomata->insertar_estado("q23",23,STR_ESPACIO_EN_BLANCO);
@@ -85,14 +99,14 @@ void class_analizador_lexico::cargar_automata(){
 
   cout<<"****"<<endl;
 
-  
+
   _myautomata->insertar_transicion("q1","q2","\"");
   _myautomata->insertar_transicion("q2","q2",todo_menos('\"'));//todo menos \"
   _myautomata->insertar_transicion("q2","q3","\"");
 
   _myautomata->insertar_transicion("q1","q4","\'");
   _myautomata->insertar_transicion("q4","q5",todo_menos('\''));//todo menos \'
-  _myautomata->insertar_transicion("q5","6","\'");
+  _myautomata->insertar_transicion("q5","q6","\'");
 
   _myautomata->insertar_transicion("q1","q7","/");
 
@@ -106,10 +120,10 @@ void class_analizador_lexico::cargar_automata(){
   _myautomata->insertar_transicion("q11","q12","\n");
 
 
-  _myautomata->insertar_transicion("q1","q13","qwertyuiopasdfghjklzxcvbnm");
+  _myautomata->insertar_transicion("q1","q13","qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
   _myautomata->insertar_transicion("q1","q13","_");
 
-  _myautomata->insertar_transicion("q13","q13","qwertyuiopasdfghjklzxcvbnm");
+  _myautomata->insertar_transicion("q13","q13","qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
   _myautomata->insertar_transicion("q13","q13","_");
   _myautomata->insertar_transicion("q13","q13","0123456789");
 
@@ -150,6 +164,11 @@ void class_analizador_lexico::cargar_automata(){
 
 void class_analizador_lexico::cargar_tabla_token_especificos(){
     _mytabla->iniciar_tabla();
+    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+    // _mytabla->imprimir_tabla();
+    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
 }
 //----------------------------------------------------
 //fin ANALIZADOR_LEXICO

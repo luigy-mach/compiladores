@@ -17,7 +17,7 @@ void class_nodo::insertar_en_hash(class_nodo* pnodo, string str){
     _myhash.insert({*it1,pnodo});
     it1++;
   }
-  
+
 
 }
 
@@ -27,11 +27,11 @@ bool class_nodo::verificar_char(char c,class_nodo*& pnodo){
     return true;
   }
   pnodo=NULL;
-  return false;  
+  return false;
 }
 
 bool class_nodo::posee_token(){
-  return _tipo_bandera>0?true:false; 
+  return _tipo_bandera>0?true:false;
 }
 
 string class_nodo::obtener_token(){
@@ -42,7 +42,7 @@ string class_nodo::obtener_token(){
   {
     return STR_SIN_TOKEN;
   }
-} 
+}
 
 string class_nodo::obtener_qn(){
   return _qn;
@@ -101,10 +101,10 @@ string class_automata::obtener_acumulador(){
 int class_automata::verificar_caracter_a_caracter(char c, string& token, string& acumulador){
   class_nodo* pnodotemp=NULL;
   es_ascci(c);
-    
+
   if(_pActual->verificar_char(c,pnodotemp)){
     _pActual=pnodotemp;
-    _acumulador=_acumulador+c;  
+    _acumulador=_acumulador+c;
     return 0;//continuar recibiendo
   }
   if(_pActual==_pComienzo){
@@ -113,7 +113,7 @@ int class_automata::verificar_caracter_a_caracter(char c, string& token, string&
   token =_pActual->obtener_token();
   acumulador=this->obtener_acumulador();
   this->reiniciar_posicion();
-  
+
   if(token==STR_SIN_TOKEN){
     return -1;// error automata
   }
@@ -127,7 +127,8 @@ void class_automata::verificar_cadena(string& cadena,vector<pair<string,string>>
   int x=0;
   while(it1!=cadena.end()){
         int option = this->verificar_caracter_a_caracter(*it1,temp1,temp2);
-        int i=0;
+        int i=-3;
+
         switch (option)
         {
           case 1:   resultado.push_back(pair<string,string>(temp2,temp1));
@@ -159,7 +160,7 @@ void class_automata::verificar_cadena(string& cadena,vector<pair<string,string>>
 
 
 //----------------------------------------------------
-//funciones 
+//funciones
 //----------------------------------------------------
 
 bool es_ascci(char c){
@@ -171,6 +172,7 @@ bool es_ascci(char c){
 }
 string todo_menos(char c){
   string temp="";
+  cout<<">>>>>>>>>>>>>>>>>>>>>:> "<<c<<" < "<<endl;
   for(int i=0;i<256;i++){
     if(i!=c){
       char tchar=i;

@@ -1,9 +1,0 @@
-OPQRZTU;/**/asd
-ABC//DEFG;
-HIJKLMN;//esto es una comenta
-;//rio
-/*jjjj*/faaaaaas/*hhhhhh*/daaaf/*iiiii*/aa
-/*ppppppp*/
-aaaa/*ppppppp*/sd;
-bla bla;
-/*ppppppp*/

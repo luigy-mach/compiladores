@@ -54,13 +54,13 @@ class class_automata{
     HASH_ESTADOS _estados;
     string _acumulador;
     void reiniciar_posicion();
+    string obtener_acumulador();
+    int verificar_caracter_a_caracter(char c, string& token, string& acumulador);
 public:
     class_automata();
     void insertar_estado(string qn1, int tipo_bandera , string token);
     void insertar_transicion(string qn1, string qn2, string srt);
-    string obtener_acumulador();
-    int verificar_caracter_a_caracter(char c, string& token, string& acumulador);
-    void verificar_cadena(string& cadena,vector< pair<string,string> >& resultado);  
+    void verificar_cadena(string& cadena,vector< pair<string,string> >& resultado);
 
 };
 
@@ -72,7 +72,7 @@ public:
 
 
 //----------------------------------------------------
-//funciones 
+//funciones
 //----------------------------------------------------
 
 bool es_ascci(char c);

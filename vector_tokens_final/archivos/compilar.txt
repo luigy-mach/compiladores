@@ -1,4 +1,0 @@
-int a=3;
-string hola="ammmmmmmmmmmmmmmmmmmmmmmmaaaa;//esto es una comentario
-//este es otro comentario
-double b=34;

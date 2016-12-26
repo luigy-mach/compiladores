@@ -1,9 +1,0 @@
-int -> ID
-a -> ID
-3 -> NUMERO0
-string -> ID
-hola -> ID
-"aaaaa" -> STRING
-double -> ID
-b -> ID
-34 -> NUMERO1
