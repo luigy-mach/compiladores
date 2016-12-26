@@ -31,6 +31,7 @@ class class_nodo{
 public:
     class_nodo(string qn,int tipo_bandera, string token);
     void insertar_en_hash(class_nodo* pnodo, string str);
+    void insertar_en_hash(class_nodo* pnodo, char str);
     bool verificar_char(char c,class_nodo*& pnodo);
     bool posee_token();
     string obtener_token();
@@ -60,6 +61,7 @@ public:
     class_automata();
     void insertar_estado(string qn1, int tipo_bandera , string token);
     void insertar_transicion(string qn1, string qn2, string srt);
+    void insertar_transicion(string qn1, string qn2, char srt);
     void verificar_cadena(string& cadena,vector< pair<string,string> >& resultado);
 
 };

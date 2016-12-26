@@ -17,7 +17,11 @@ void class_nodo::insertar_en_hash(class_nodo* pnodo, string str){
     _myhash.insert({*it1,pnodo});
     it1++;
   }
+}
 
+void class_nodo::insertar_en_hash(class_nodo* pnodo, char str){
+
+  _myhash.insert({str,pnodo});
 
 }
 
@@ -88,6 +92,19 @@ void class_automata::insertar_transicion(string qn1, string qn2, string str){
     pnodo1->insertar_en_hash(pnodo2,str);
   }
 }
+
+void class_automata::insertar_transicion(string qn1, string qn2, char str){
+  class_nodo* pnodo1=NULL;
+  class_nodo* pnodo2=NULL;
+  pnodo1=_estados[qn1];
+  pnodo2=_estados[qn2];
+  if(pnodo1 && pnodo2){
+    pnodo1->insertar_en_hash(pnodo2,str);
+  }
+}
+
+
+
 
 void class_automata::reiniciar_posicion(){
   _pActual=_pComienzo;

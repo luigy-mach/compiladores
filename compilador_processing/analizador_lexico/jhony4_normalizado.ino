@@ -9,73 +9,73 @@ void setup ( ) {
   pinMode ( 3 , OUTPUT ) ;
   pinMode ( 5 ,  OUTPUT ) ;
   pinMode ( 6 , OUTPUT ) ;
-  pinMode ( 9 , OUTPUT ) ; 
+  pinMode ( 9 , OUTPUT ) ;
 }
 
-void activar ( int v ) { 
-    analogWrite ( pin3 , v ) ; 
+void activar ( int v ) {
+    analogWrite ( pin3 , v ) ;
     analogWrite ( pin5 , v )  ;
     analogWrite ( pin6 , v ) ;
-    analogWrite ( pin9 , v ) ; 
+    analogWrite ( pin9 , v ) ;
 }
 void parar ( ) {
   analogWrite ( pin3 , 0 ) ;
   analogWrite ( pin5 , 0 ) ;
-  analogWrite ( pin6 , 0 ) ; 
+  analogWrite ( pin6 , 0 ) ;
   analogWrite ( pin9 , 0 ) ;
 }
 void adelante( int v ) {
-    analogWrite ( pin3 , v ) ; 
+    analogWrite ( pin3 , v ) ;
     analogWrite ( pin5 , 0 )  ;
     analogWrite ( pin6 , 0 ) ;
-    analogWrite ( pin9 , v ) ; 
+    analogWrite ( pin9 , v ) ;
 }
-void atras ( int v ) { 
-    analogWrite ( pin3 , 0 ) ; 
+void atras ( int v ) {
+    analogWrite ( pin3 , 0 ) ;
     analogWrite ( pin5 , v ) ;
     analogWrite ( pin6 , v ) ;
-    analogWrite ( pin9 , 0 ) ; 
+    analogWrite ( pin9 , 0 ) ;
   }
 void derecha ( int v ) {
-    analogWrite ( pin3 , v ) ; 
+    analogWrite ( pin3 , v ) ;
     analogWrite ( pin5 , 0 ) ;
     analogWrite ( pin6 , v ) ;
     analogWrite ( pin9 , 0 ) ;
 }
 
 
-void izquierda ( int v ) { 
-    analogWrite ( pin3 , 0 ) ;  
+void izquierda ( int v ) {
+    analogWrite ( pin3 , 0 ) ;
     analogWrite ( pin5 , v ) ;
     analogWrite ( pin6 , 0 ) ;
     analogWrite ( pin9 , v ) ;
 }
 
- void loop ( ) { 
+ void loop ( ) {
 if ( Serial . available ( ) > 0 ) {
     estado = Serial . read ( ) ;
+    //dfafsd 
     if ( estado ! = -1 ) {
       switch ( estado ) {
           case ' w ' :
-          adelante ( vel ) ; 
+          adelante ( vel ) ;
           break ;
-          case ' s ' : // 
-          atras ( vel ) ;  
+          case ' s ' :
+          atras ( vel ) ;
           break ;
           case ' a ' :
-          izquierda ( vel ) ;  
+          izquierda ( vel ) ;
           break ;
           case ' d ' :
-          derecha ( vel ) ; 
+          derecha ( vel ) ;
           break ;
           case ' x ' :
-          activar ( vel ) ; 
+          activar ( vel ) ;
           break ;
           case ' c ' :
           parar ( ) ;
-          break ;          
+          break ;
       }
     }
   }
 }
-

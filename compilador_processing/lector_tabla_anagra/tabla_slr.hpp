@@ -19,8 +19,8 @@ using namespace std;
 
 #define MSJ_ERROR "err"
 
-#define TABLA class_hash::type1
-#define FILA class_hash::type0
+#define TABLA class_hash2::type1
+#define FILA class_hash2::type0
 
 
 #define STR_ESPACIO_SEPARADOR "          "
@@ -28,7 +28,7 @@ using namespace std;
 
 
 
-struct class_hash{
+struct class_hash2{
   typedef std::unordered_map< string,string > type0;
   typedef std::unordered_map< string,type0 > type1;
 };

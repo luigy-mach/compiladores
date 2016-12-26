@@ -13,7 +13,7 @@ void class_analizador_lexico::cargar_archivo(string archivo, string& buff ){
     ifstream in(archivo);
     string temp="";
     while(getline(in,temp)){
-      buff+=temp;
+      buff+=temp+"\n";
       //cout<<temp<<endl;
     }
 }
@@ -33,29 +33,42 @@ void class_analizador_lexico::obtener_vector_tokens(vector< pair<string,string> 
 
   _myautomata->verificar_cadena(_buffer,vec);
 
-
-  for(it=vec.begin(); it!=vec.end() ; it++){
+  for(it=vec.begin(); it!=vec.end();){
     if(it->second==STR_ESPACIO_EN_BLANCO ||
        it->second==STR_SALTO_DE_LINEA ||
        it->second==STR_TABULACION ){
-           //borrar elemento de vector
-           it_temp=it;
-           it_temp=vec.erase(it_temp);
-           cout<<"borrando: "<<it->second<<" <"<<endl;
+      //  cout<<"borrando: "<<it->second<<" ----- ";
+       it=vec.erase(it);
+      // cout<<"despues : "<<it->second<<endl;
+
            //continue;
-       }
+    }
+
+
     else if(it->second==STR_STRING_SIN_DEPURAR ||
        it->second==STR_SIMBOLO_DESCONOCIDO ){
         string out="ERROR_EN_TABLA";
         if(_mytabla->buscar(it->first,out)){
-            cout<<"TOKEN: "<<it->second<<endl;
+            // cout<<"TOKEN: "<<it->second<<endl;
             it->second=out;
         }
+        it++;
+    }
+    else{
+
+      string out="ERROR_EN_TABLA_GRAVE";
+      if(_mytabla->buscar(it->first,out)){
+          // cout<<"TOKEN: "<<it->second<<endl;
+          it->second=out;
+      }
+      it++;
     }
   }
 
+  int linea=1;
   for(it=vec.begin() ; it!=vec.end() ; it++){
-      cout<< it->first<<"-------"<<it->second<<endl;
+      cout<< it->first<<"-------"<<it->second<<endl; //" ///// linea: " << linea <<endl;
+      linea++;
   }
 
 
@@ -117,7 +130,7 @@ void class_analizador_lexico::cargar_automata(){
 
   _myautomata->insertar_transicion("q7","q11","/");
   _myautomata->insertar_transicion("q11","q11",todo_menos('\n'));//todo menos \n
-  _myautomata->insertar_transicion("q11","q12","\n");
+  _myautomata->insertar_transicion("q11","q12",'\n');
 
 
   _myautomata->insertar_transicion("q1","q13","qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
