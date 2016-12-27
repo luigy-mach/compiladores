@@ -1,13 +1,17 @@
 
 #include "class_slr.hpp"
 
+// #define SIMBOLO_INICIO 0
+// #define SIMBOLO_PARADA $
+
+
 void slr::resetear_pilas(){
   while(!pila_salida.empty())
     pila_salida.pop();
   while(!pila_entrada.empty())
       pila_entrada.pop();
-  pila_salida.push("0");
-  pila_entrada.push("$");
+  pila_salida.push(SIMBOLO_INICIO);
+  pila_entrada.push(SIMBOLO_PARADA);
 }
 
 void slr::insertar_consulta(vector<string>& vec){
@@ -18,38 +22,46 @@ void slr::insertar_consulta(vector<string>& vec){
   }
 }
 
+
 string slr::verificar_entrada(vector<string>& query){
   insertar_consulta(query);
-  string cabeza_salida="___";
-  string cabeza_entrada="__*__";
+  string cabeza_salida="xxx__";
+  string cabeza_entrada="zzz__";
   cabeza_entrada=pila_entrada.top();
   cabeza_salida=pila_salida.top();
+
   while(!gramatica_aceptada(cabeza_salida,cabeza_entrada) && pila_entrada.size()>2 ){
     cabeza_entrada=pila_entrada.top();
     cabeza_salida=pila_salida.top();
-    cout<<"@@@@@@@@@@@@@@@@@1"<<endl;
+
+    cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@1"<<endl;
     cout<<cabeza_salida<<"<-->"<<cabeza_entrada<<endl;
-    cout<<pila_salida.size()<<"<-->"<<pila_entrada.size()<<endl;
+    cout<<"        tamaños de colas: "<<pila_salida.size()<<" - "<<pila_entrada.size()<<endl;
 
     string memoria=_tabla.consultar(cabeza_salida,cabeza_entrada);
-    cout<<cabeza_salida<<"+"<<cabeza_entrada<<">>"<<"_____________"<<endl;
-    cout<<"memoria: "<<memoria<<endl;
-    if(memoria==ACEPTACION){
+    //cout<<cabeza_salida<<"<-->"<<cabeza_entrada<<">>"<<endl;
+    // cout<<"memoria: "<<memoria<<endl;
+    if(memoria==STR_ACEPTACION){
       cout<<"TODO OK!"<<endl;
-      return "gramatica_aceptada gol!!!";
+      return "gramatica_aceptada";
     }
     string x=memoria.substr(0,1);
     string y=memoria.substr(1);
+    cout<<"memoria  : "<<x<<" - "<<y<<endl;
     if(x=="d"){
-      cout<<"desplazamiento:"<<x<<y<<endl;
+    // if(x==STR_DESPLAZAMIENTO){
+      cout<<"         desplazamiento:"<<x<<y<<endl;
       pila_salida.push(cabeza_entrada);
       pila_salida.push(y);
       pila_entrada.pop();
 
+    // }else if(x==STR_REDUCCION){
     }else if(x=="r"){
-      cout<<"reduccion:"<<x<<y<<endl;
+      cout<<"         reduccion: "<<x<<" - "<<y<<endl;
       string estado_reduccion=_reducciones.obtener_estado(y);
-      int num_pop=stoi(_reducciones.obtener_estado_num(y));
+      cout<<"         "<<estado_reduccion<<endl;
+      int num_pop=_reducciones.obtener_estado_num(y);
+      cout<<"         "<<num_pop<<endl;
       cout<<estado_reduccion<<num_pop<<endl;
       for(int i=0;i<num_pop*2;i++){
         cout<<"pop :"<<pila_salida.top()<<endl;
@@ -62,11 +74,12 @@ string slr::verificar_entrada(vector<string>& query){
       pila_salida.push(temporal);
     }
     else{
-      cout<<"algo muy malo paso"<<endl;
-      return "gramtica no reconocida";
+      cout<<"algo muy malo paso >> no es ni D ni R"<<endl;
+      return "gramatica no reconocida >> error_en_tabla R_D";
     }
-    cout<<"@@@@@@@@@@@@@@@@@2"<<endl;
+    cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"<<endl;
   }
+
   cout<<"TODO OK!"<<endl;
   cout<< "gramatica_aceptada gol222!!!"<<endl;
   cout<<"@@@@@@@@@@@@@@@@@FIN"<<endl;
@@ -74,8 +87,7 @@ string slr::verificar_entrada(vector<string>& query){
 }
 
 
-
 bool slr::gramatica_aceptada(string fil, string col){
   string temp=_tabla.consultar(fil,col);
-  return temp==ACEPTACION?true:false;
+  return temp==STR_ACEPTACION?true:false;
 }

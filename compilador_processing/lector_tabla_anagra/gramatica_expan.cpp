@@ -2,12 +2,15 @@
 
 
 string gramatica_expan::obtener_estado(string num_reducir){
-  string temp = _tabla.find(num_reducir)->second.begin()->first;
-  return temp;
+  if(_tabla.find(num_reducir)!=_tabla.end())
+    return _tabla.find(num_reducir)->second.begin()->first;
+  return "[[<<<<(X_x)>>> obtener_estado]]";
 }
-string gramatica_expan::obtener_estado_num(string num_reducir){
-  string temp = _tabla.find(num_reducir)->second.begin()->second;
-  return temp;
+
+int gramatica_expan::obtener_estado_num(string num_reducir){
+  if(_tabla.find(num_reducir)!=_tabla.end())
+    return stoi(_tabla.find(num_reducir)->second.begin()->second);
+  return -123456;
 }
 
 
