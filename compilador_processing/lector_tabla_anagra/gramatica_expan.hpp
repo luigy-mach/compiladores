@@ -35,12 +35,12 @@ class gramatica_expan{
 public:
     gramatica_expan(){}
     void inicializar(){
-      leer_archivo(_tabla,"/home/luigy/Desktop/compiladores/compiladores/lector_tabla_anagra/new/gramatica_ampliada.csv");
+      leer_archivo(_tabla,"/new/gramatica_ampliada.csv");
     }
     void convertir_a_vector(string str, string delimitador,vector<string>& vec);
     void convertir_a_cola(string str,string delimitador,queue<string>& vec);
     string obtener_estado(string num_reducir);
-    string obtener_estado_num(string num_reducir);
+    int obtener_estado_num(string num_reducir);
     void imprimir_tabla(TABLA1& t);
 
 };

@@ -6,7 +6,11 @@
 using namespace std;
 
 
-#define ACEPTACION "aceptar"
+#define STR_ACEPTACION "aceptar"
+#define SIMBOLO_INICIO "0"
+#define SIMBOLO_PARADA "$"
+#define STR_DESPLAZAMIENTO "d"
+#define STR_REDUCCION "r"
 
 class slr{
   tabla_anagra    _tabla;
@@ -22,7 +26,6 @@ public:
       _tabla.inicializar_tabla();
       _reducciones.inicializar();
       resetear_pilas();
-
     }
     string verificar_entrada(vector<string>& query);
 

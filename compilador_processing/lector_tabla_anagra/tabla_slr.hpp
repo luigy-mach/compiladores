@@ -43,7 +43,7 @@ class tabla_anagra{
 public:
     tabla_anagra(){}
     void inicializar_tabla(){
-      leer_archivo(_tabla,"/home/luigy/Desktop/compiladores/compiladores/lector_tabla_anagra/new/ANAGRA_TABLE_FULL.csv");
+      leer_archivo(_tabla,"new/ANAGRA_TABLE_FULL.csv");
     }
     void convertir_a_vector(string str, string delimitador,vector<string>& vec);
     void convertir_a_cola(string str,string delimitador,queue<string>& vec);
