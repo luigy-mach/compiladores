@@ -155,9 +155,10 @@ string slr::verificar_entrada_2(vector< pair<string,string> >& query1){
           pila_salida.pop();
           cout<<"------fin"<<endl;
         }
-      cout<<">>> :"<<pila_salida.top()<<endl;
+      cout<<">>>1 :"<<pila_salida.top()<<endl;
+      cout<<">>>2 :"<<estado_reduccion<<endl;
       string temporal = _tabla.consultar(pila_salida.top(),estado_reduccion);
-      cout<<"> : "<< temporal <<"!!!!"<<endl;
+      cout<<">>::  "<< temporal <<"!!!!"<<endl;
       pila_salida.push(estado_reduccion);
       pila_salida.push(temporal);
     }
