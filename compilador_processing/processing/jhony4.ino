@@ -53,7 +53,7 @@ void izquierda(int v){
  void loop() { 
 if (Serial.available ()>0){
     estado = Serial.read();
-    if (estado != -1){
+    if (estado != 1){
       switch(estado){
           case 'w':
           adelante(vel); 
