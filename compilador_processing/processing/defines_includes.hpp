@@ -11,7 +11,7 @@ using namespace std;
 
 
 #define ARCHIVO_GRAMATICA "new/gramatica_ampliada.csv"
-#define ARCHIVO_ANAGRA_TABLA "new/ANAGRA_TABLE_FULL.csv"
+#define ARCHIVO_ANAGRA_TABLA "new/ANAGRA_TABLE_FULL3.csv"
 #define ARCHIVO_TSE "TSE.txt"
 
 #define STR_SALTO_DE_LINEA "SALTO_DE_LINEA"
