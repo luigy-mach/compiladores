@@ -6,12 +6,11 @@
 #include <utility>
 #include <string>
 #include "analizador_lexico/defines_includes.hpp"
-
+#include "lector_tabla_anagra/defines_includes.hpp"
 
 #include "analizador_lexico/analizador_lexico.hpp"
+#include"lector_tabla_anagra/class_slr.hpp"
 
-#include"lector_tabla_anagra/tabla_slr.hpp"
-#include"lector_tabla_anagra/gramatica_expan.hpp"
 
 
 
@@ -19,6 +18,7 @@ using namespace std;
 
 
 int main(){
+
 vector< pair<string,string> > vec;
 
   class_analizador_lexico analizador;
@@ -29,8 +29,8 @@ vector< pair<string,string> > vec;
   slr mysrl;
   mysrl.iniciar_slr();
   cout<<"!!!!!!!!!!!!!!!!!!!!!"<<endl;
-  string resultado = mysrl.verificar_entrada(vec);
-  cout<<resultado<<endl;
+  //string resultado = mysrl.verificar_entrada(vec);
+  //cout<<resultado<<endl;
   cout<<"!!!!!!!!!!!!!!!!!!!!!"<<endl;
 
 

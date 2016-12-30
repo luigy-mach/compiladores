@@ -1,8 +1,12 @@
 
 #include "class_slr.hpp"
 
-// #define SIMBOLO_INICIO 0
-// #define SIMBOLO_PARADA $
+
+void slr::iniciar_slr(){
+  _tabla.inicializar_tabla();
+  _reducciones.inicializar();
+  resetear_pilas();
+}
 
 
 void slr::resetear_pilas(){
@@ -25,51 +29,56 @@ void slr::insertar_consulta(vector<string>& vec){
 
 string slr::verificar_entrada(vector<string>& query){
   insertar_consulta(query);
-  string cabeza_salida="xxx__";
-  string cabeza_entrada="zzz__";
-  cabeza_entrada=pila_entrada.top();
-  cabeza_salida=pila_salida.top();
+  string cabeza_salida  = STR_EMPTY;
+  string cabeza_entrada = STR_EMPTY;
+  cabeza_entrada = pila_entrada.top();
+  cabeza_salida  = pila_salida.top();
 
-  while(!gramatica_aceptada(cabeza_salida,cabeza_entrada) && pila_entrada.size()>2 ){
+  cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@1"<<endl;
+  while( !gramatica_aceptada(cabeza_salida, cabeza_entrada) && pila_entrada.size()>2 ){
     cabeza_entrada=pila_entrada.top();
     cabeza_salida=pila_salida.top();
 
-    cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@1"<<endl;
+    cout<<"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm1"<<endl;
     cout<<cabeza_salida<<"<-->"<<cabeza_entrada<<endl;
     cout<<"        tamaños de colas: "<<pila_salida.size()<<" - "<<pila_entrada.size()<<endl;
 
-    string memoria=_tabla.consultar(cabeza_salida,cabeza_entrada);
+    string memoria = _tabla.consultar(cabeza_salida,cabeza_entrada);
     //cout<<cabeza_salida<<"<-->"<<cabeza_entrada<<">>"<<endl;
     // cout<<"memoria: "<<memoria<<endl;
-    if(memoria==STR_ACEPTACION){
-      cout<<"TODO OK!"<<endl;
-      return "gramatica_aceptada";
+    if( memoria == STR_ACEPTACION ){
+      cout<<"TODO Okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk!"<<endl;
+      return "gramatica_aceptadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     }
+
+
     string x=memoria.substr(0,1);
     string y=memoria.substr(1);
-    cout<<"memoria  : "<<x<<" - "<<y<<endl;
+    cout<<"memoria  : "<<x<<" <-> "<<y<<endl;
     if(x=="d"){
     // if(x==STR_DESPLAZAMIENTO){
-      cout<<"         desplazamiento:"<<x<<y<<endl;
+      cout<<"     desplazamiento:"<<x<<y<<endl;
       pila_salida.push(cabeza_entrada);
       pila_salida.push(y);
       pila_entrada.pop();
 
     // }else if(x==STR_REDUCCION){
-    }else if(x=="r"){
-      cout<<"         reduccion: "<<x<<" - "<<y<<endl;
-      string estado_reduccion=_reducciones.obtener_estado(y);
-      cout<<"         "<<estado_reduccion<<endl;
-      int num_pop=_reducciones.obtener_estado_num(y);
-      cout<<"         "<<num_pop<<endl;
-      cout<<estado_reduccion<<num_pop<<endl;
-      for(int i=0;i<num_pop*2;i++){
-        cout<<"pop :"<<pila_salida.top()<<endl;
-        pila_salida.pop();
-      }
+    }
+    else if(x=="r"){
+        cout<<"     reduccion: "<< x <<" - "<< y <<endl;
+        string estado_reduccion = _reducciones.obtener_estado(y);
+        cout<<"         estado_reduccion: "<< estado_reduccion << endl;
+        int num_pop = _reducciones.obtener_estado_num(y);
+        cout<<"         num_pop: " << num_pop <<endl;
+        for(int i=0;i<num_pop*2;i++){
+          cout<<"------inicio"<<endl;
+          cout<<"       pop :"<<pila_salida.top()<<endl;
+          pila_salida.pop();
+          cout<<"------fin"<<endl;
+        }
       cout<<">>> :"<<pila_salida.top()<<endl;
-      string temporal=_tabla.consultar(pila_salida.top(),estado_reduccion);
-      cout<<temporal<<"!!!!"<<endl;
+      string temporal = _tabla.consultar(pila_salida.top(),estado_reduccion);
+      cout<<"> : "<< temporal <<"!!!!"<<endl;
       pila_salida.push(estado_reduccion);
       pila_salida.push(temporal);
     }
@@ -77,13 +86,13 @@ string slr::verificar_entrada(vector<string>& query){
       cout<<"algo muy malo paso >> no es ni D ni R"<<endl;
       return "gramatica no reconocida >> error_en_tabla R_D";
     }
-    cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"<<endl;
+    cout<<"mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm2"<<endl;
   }
 
-  cout<<"TODO OK!"<<endl;
-  cout<< "gramatica_aceptada gol222!!!"<<endl;
-  cout<<"@@@@@@@@@@@@@@@@@FIN"<<endl;
+  cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2"<<endl;
 
+  cout<<"TODO OK!"<<endl;
+  return "gramatica reconocida";
 }
 
 

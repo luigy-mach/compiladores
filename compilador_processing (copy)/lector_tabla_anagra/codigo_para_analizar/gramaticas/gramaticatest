@@ -1,0 +1,51 @@
+%token id  numero 
+if 
+switch case 
+break
+signocomillasimple
+signodospuntos 
+signopuntoycoma 
+signocoma 
+signopunto
+signoigual 
+signoparentesisabierto signoparentesiscerrado
+signollavesabierta signollavescerrada
+signomayorque signomayorigualque signomenorque signomenorigualque signonegacion signodiferentede
+int double float void
+%%
+
+S:LLAMADOFUNCION signopuntoycoma S | DECLARACIONFUNCION S | ASIGNACION S | INICIARVARIABLE S | BOOLEANO  S | IFCONDICIONAL S | SWITCH S | ;
+
+
+TIPO: int | double | float | void ;
+VALOR: numero | id | LLAMADOFUNCION ;
+
+INICIARVARIABLE: TIPO CUERPO ;
+CUERPO: id signopuntoycoma | ASIGNACION ;
+
+
+ASIGNACION: id signoigual VALOR signopuntoycoma ;
+
+
+
+
+IFCONDICIONAL: if signoparentesisabierto BOOLEANO signoparentesiscerrado signollavesabierta S signollavescerrada;
+
+BOOLEANO:  B | B signomayorque B | B signomayorigualque B | B signomenorque B| B signomenorigualque B | B signodiferentede B | B signonegacion ;
+B: LLAMADOFUNCION  | id | numero ;
+
+SWITCH: switch signoparentesisabierto OPT signoparentesiscerrado signollavesabierta CUERPOSWITCH signollavescerrada;
+OPT: numero;
+CUERPOSWITCH: case signocomillasimple OPT signocomillasimple signodospuntos CUERPOCASE break signopuntoycoma | 
+			  case signocomillasimple OPT signocomillasimple signodospuntos CUERPOCASE break signopuntoycoma CUERPOSWITCH ;
+CUERPOCASE: LLAMADOFUNCION signopuntoycoma | ;
+
+
+
+DECLARACIONFUNCION: TIPO id signoparentesisabierto ARGUMENTO signoparentesiscerrado signollavesabierta S signollavescerrada;
+ARGUMENTO: TIPO id | TIPO id signocoma ARGUMENTO | ;
+
+
+LLAMADOFUNCION: FOO signoparentesisabierto ARGUMENTO signoparentesiscerrado ;
+FOO: id | id signopunto id; 
+ARGUMENTO: numero | numero signocoma ARGUMENTO | id | id signocoma ARGUMENTO| ;

@@ -1,17 +1,21 @@
 #include"tabla_slr.hpp"
 
+void tabla_anagra::inicializar_tabla(){
+  leer_archivo(_tabla,ARCHIVO_ANAGRA_TABLA);
+
+}
+
 
 string tabla_anagra::consultar(string fila, string columna){
-  if(_tabla.find(fila)==_tabla.end()){
-    cout<< "error interno: errorXX_fila--->"<<fila<<endl;
-    return "errorXX_fila: no encontrada";
+  if( _tabla.find(fila) == _tabla.end() ){
+    //cout<< "xxxxxx cout : error interno: errorXX_fila--->"<<fila<<endl;
+    return "xxxxxx: errorXX_fila: no encontrada";
   }
-  if(_tabla.find(fila)->second.find(columna)==_tabla.find(fila)->second.end()) {
-    cout<< "error interno: errorXX_columna--->"<<columna<<endl;
-    return "errorXX_columna: no encontrada :";
+  if( _tabla.find(fila)->second.find(columna)==_tabla.find(fila)->second.end() ) {
+    //cout<< "xxxxxx cout : error interno: errorYY_columna--->"<<columna<<endl;
+    return "xxxxxx: errorYY_columna: no encontrada :";
   }
   string temp = _tabla.find(fila)->second.find(columna)->second;
-
   return temp;
 }
 
@@ -19,16 +23,18 @@ void tabla_anagra::leer_archivo(TABLA& t,string archivo){
   queue<string> cola_cabecera;
   queue<string> cola_buff;
   ifstream in(archivo);
-  string buffer="vacio_1_";
-  string cabecera="vacio_2_";
+  string buffer = STR_EMPTY;
+  string cabecera = STR_EMPTY;
   getline(in,cabecera);
-  convertir_a_cola(cabecera,"#",cola_cabecera);
+  convertir_a_cola(cabecera,STR_SIMBOLO_SEPARACION,cola_cabecera);
     cola_cabecera.pop();
   while(getline(in,buffer)){
-    convertir_a_cola(buffer,"#",cola_buff);
+    convertir_a_cola(buffer,STR_SIMBOLO_SEPARACION,cola_buff);
     insertar(t,cola_cabecera,cola_buff);
   }
+  cout<<"######asdasdasdasdasdasda#############adfadsfasfasdfadfss"<<endl;
   imprimir_tabla(_tabla);
+  cout<<"######asdasdasdasdasdasda#############adfadsfasfasdfadfss"<<endl;
 }
 
 

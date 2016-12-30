@@ -36,13 +36,16 @@ void class_analizador_lexico::obtener_vector_tokens(vector< pair<string,string> 
   for(it=vec.begin(); it!=vec.end();){
     if(it->second==STR_ESPACIO_EN_BLANCO ||
        it->second==STR_SALTO_DE_LINEA ||
-       it->second==STR_TABULACION ){
+       it->second==STR_TABULACION ||
+       it->second==STR_COMENTARIO_CORTO ||
+       it->second==STR_COMENTARIO_LARGO  ){
       //  cout<<"borrando: "<<it->second<<" ----- ";
        it=vec.erase(it);
       // cout<<"despues : "<<it->second<<endl;
 
            //continue;
     }
+
 
 
     else if(it->second==STR_STRING_SIN_DEPURAR ||
@@ -89,9 +92,9 @@ void class_analizador_lexico::cargar_automata(){
   _myautomata->insertar_estado("q7",0,STR_SIN_TOKEN);
   _myautomata->insertar_estado("q8",0,STR_SIN_TOKEN);
   _myautomata->insertar_estado("q9",0,STR_SIN_TOKEN);
-  _myautomata->insertar_estado("q10",10,"COMENTARIO_LARGO");
+  _myautomata->insertar_estado("q10",10,STR_COMENTARIO_LARGO);//"COMENTARIO_LARGO"
   _myautomata->insertar_estado("q11",0,STR_SIN_TOKEN);
-  _myautomata->insertar_estado("q12",12,"COMENTARIO_CORTO");
+  _myautomata->insertar_estado("q12",12,STR_COMENTARIO_CORTO);//"COMENTARIO_CORTO"
 
   _myautomata->insertar_estado("q13",13,STR_STRING_SIN_DEPURAR);
   _myautomata->insertar_estado("q14",14,"NUMERO_ENTERO_CERO");//solo un cero

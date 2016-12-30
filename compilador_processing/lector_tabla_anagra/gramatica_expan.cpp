@@ -1,10 +1,14 @@
 #include"gramatica_expan.hpp"
 
 
+void gramatica_expan::inicializar(){
+  leer_archivo(_tabla,ARCHIVO_GRAMATICA);
+}
+
 string gramatica_expan::obtener_estado(string num_reducir){
   if(_tabla.find(num_reducir)!=_tabla.end())
     return _tabla.find(num_reducir)->second.begin()->first;
-  return "[[<<<<(X_x)>>> obtener_estado]]";
+  return STR_ERROR_OBTENER_GRAMATICA;
 }
 
 int gramatica_expan::obtener_estado_num(string num_reducir){
@@ -13,14 +17,13 @@ int gramatica_expan::obtener_estado_num(string num_reducir){
   return -123456;
 }
 
-
-
 void gramatica_expan::leer_archivo(TABLA1& t,string archivo){
   queue<string> cola_buff;
   ifstream in(archivo);
-  string buffer="vacio_";
+  string buffer = STR_EMPTY;
   while(getline(in,buffer)){
-    convertir_a_cola(buffer,"#",cola_buff);
+    convertir_a_cola(buffer,STR_SIMBOLO_SEPARACION,cola_buff);
+    //cout<<"........ .."<<buffer<<endl;
     insertar(t,cola_buff);
   }
   imprimir_tabla(_tabla);
@@ -29,33 +32,34 @@ void gramatica_expan::leer_archivo(TABLA1& t,string archivo){
 
 void gramatica_expan::convertir_a_cola(string str,string delimitador,queue<string>& vec){
   size_t pos=0;
-  string buff;
+  string buff = STR_EMPTY;
+
   while((pos=str.find(delimitador))!=string::npos){
       buff=str.substr(0,pos);
       if(pos>0){
-        cout<<"..........."<<buff<<endl;
+        //cout<<"..........."<<buff<<endl;
         vec.push(buff);
       }
-      str.erase(0,pos+delimitador.length());
-  }
-
+        str.erase(0,pos+delimitador.length());
+    }
 }
 
 
 void gramatica_expan::insertar(TABLA1& t, queue<string>& fila){
-  string num_fila=fila.front();
+  string num_fila = fila.front();
   fila.pop();
   string estado = fila.front();
   fila.pop();
+
   FILA1 temp;
-    string num_estados=to_string(fila.size());
+    string num_estados = to_string(fila.size());
     temp.insert({estado,num_estados});
-  cout<<num_fila<<"_"<<estado<<"_"<<num_estados<<endl;
+
+  cout<<"###"<<num_fila<<"_"<<estado<<"_"<<num_estados<<endl;
   t.insert({num_fila,temp});
   while(!fila.empty()){
     fila.pop();
   }
-
 }
 
 

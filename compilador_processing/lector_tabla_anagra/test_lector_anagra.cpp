@@ -9,6 +9,7 @@ using namespace std;
 #include"class_slr.hpp"
 
 
+
 int main(){
 
   vector<string> test;
@@ -17,7 +18,6 @@ int main(){
   test.push_back("signoigual");
   test.push_back("numero");
   test.push_back("signopuntoycoma");
-
 
 
   vector<string> test2;
@@ -50,6 +50,8 @@ int main(){
   test3.push_back("id");
   test3.push_back("signopuntoycoma");
 
+
+
   vector<string> test4;
   test4.push_back("int");
   test4.push_back("id");
@@ -62,12 +64,14 @@ int main(){
   // int id signoigual numero signopuntoycoma
 
 
+  cout<<"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"<<endl;
+
   slr mysrl;
   mysrl.iniciar_slr();
-  cout<<"!!!!!!!!!!!!!!!!!!!!!"<<endl;
-  string resultado = mysrl.verificar_entrada(test);
-  cout<<resultado<<endl;
-  cout<<"!!!!!!!!!!!!!c!!!!!!!!"<<endl;
+  string resultado = mysrl.verificar_entrada(test3);
+  cout<<"resultado: "<<resultado<<endl;
+
+  cout<<"XXXXXXXXXXXXXXXXXXXXXXXZZZZZZZZZZZXXXXXXXXXXXXX"<<endl;
 
   return 0;
 }

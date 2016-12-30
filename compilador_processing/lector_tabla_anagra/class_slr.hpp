@@ -5,12 +5,7 @@
 #include<stack>
 using namespace std;
 
-
-#define STR_ACEPTACION "aceptar"
-#define SIMBOLO_INICIO "0"
-#define SIMBOLO_PARADA "$"
-#define STR_DESPLAZAMIENTO "d"
-#define STR_REDUCCION "r"
+#include "defines_includes.hpp"
 
 class slr{
   tabla_anagra    _tabla;
@@ -22,11 +17,7 @@ class slr{
   bool gramatica_aceptada(string fil, string col);
 public:
     slr(){ }
-    void iniciar_slr(){
-      _tabla.inicializar_tabla();
-      _reducciones.inicializar();
-      resetear_pilas();
-    }
+    void iniciar_slr();
     string verificar_entrada(vector<string>& query);
 
 };
