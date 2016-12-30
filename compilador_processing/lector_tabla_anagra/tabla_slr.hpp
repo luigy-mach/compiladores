@@ -36,7 +36,15 @@ class tabla_anagra{
 
 public:
     tabla_anagra(){}
+<<<<<<< HEAD
     void inicializar_tabla();
+=======
+    void inicializar_tabla(){
+      leer_archivo(_tabla,"new/ANAGRA_TABLE_FULL.csv");
+    }
+    void convertir_a_vector(string str, string delimitador,vector<string>& vec);
+    void convertir_a_cola(string str,string delimitador,queue<string>& vec);
+>>>>>>> 01bf27a079175456578839226d36ee6740b9d06e
     string consultar(string fila, string columna);
     void imprimir_tabla(TABLA& t);
 

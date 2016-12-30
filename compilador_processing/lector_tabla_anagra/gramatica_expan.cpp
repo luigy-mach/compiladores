@@ -1,8 +1,21 @@
 #include"gramatica_expan.hpp"
 
 
+<<<<<<< HEAD
 void gramatica_expan::inicializar(){
   leer_archivo(_tabla,ARCHIVO_GRAMATICA);
+=======
+string gramatica_expan::obtener_estado(string num_reducir){
+  if(_tabla.find(num_reducir)!=_tabla.end())
+    return _tabla.find(num_reducir)->second.begin()->first;
+  return "[[<<<<(X_x)>>> obtener_estado]]";
+}
+
+int gramatica_expan::obtener_estado_num(string num_reducir){
+  if(_tabla.find(num_reducir)!=_tabla.end())
+    return stoi(_tabla.find(num_reducir)->second.begin()->second);
+  return -123456;
+>>>>>>> 01bf27a079175456578839226d36ee6740b9d06e
 }
 
 string gramatica_expan::obtener_estado(string num_reducir){

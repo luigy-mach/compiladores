@@ -34,7 +34,13 @@ class gramatica_expan{
 
 public:
     gramatica_expan(){}
+<<<<<<< HEAD
     void inicializar();
+=======
+    void inicializar(){
+      leer_archivo(_tabla,"/new/gramatica_ampliada.csv");
+    }
+>>>>>>> 01bf27a079175456578839226d36ee6740b9d06e
     void convertir_a_vector(string str, string delimitador,vector<string>& vec);
     void convertir_a_cola(string str,string delimitador,queue<string>& vec);
     string obtener_estado(string num_reducir);
