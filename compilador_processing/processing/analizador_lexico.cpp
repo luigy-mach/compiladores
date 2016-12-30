@@ -80,11 +80,11 @@ void class_analizador_lexico::obtener_vector_tokens(vector< pair<string,string> 
     }
   }
 
-  int linea=1;
-  for(it=vec.begin() ; it!=vec.end() ; it++){
-      cout<< it->first<<"-------"<<it->second<<endl; //" ///// linea: " << linea <<endl;
-      linea++;
-  }
+  // int linea=1;
+  // for(it=vec.begin() ; it!=vec.end() ; it++){
+  //     cout<< it->first<<"-------"<<it->second<<endl; //" ///// linea: " << linea <<endl;
+  //     linea++;
+  // }
 
 
 }
@@ -195,11 +195,7 @@ void class_analizador_lexico::cargar_automata(){
 
 void class_analizador_lexico::cargar_tabla_token_especificos(){
     _mytabla->iniciar_tabla();
-    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
-    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
-    // _mytabla->imprimir_tabla();
-    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
-    // cout<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+
 }
 //----------------------------------------------------
 //fin ANALIZADOR_LEXICO

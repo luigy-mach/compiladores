@@ -12,14 +12,12 @@
 
 #include "defines_includes.hpp"
 
-
-using namespace std;
-
-
-
 #define TABLA1 class_hash1::type1
 #define FILA1 class_hash1::type0
 
+
+
+using namespace std;
 
 struct class_hash1{
   typedef std::unordered_map< string,string > type0;
